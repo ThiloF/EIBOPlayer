@@ -2,6 +2,7 @@ package Business;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -18,22 +19,39 @@ public class MP3Player {
 	private Player pl;
 	private MediaPlayer mp;
 	private boolean playing = false;
-	private Track actTrack = null;
-
+	private HashMap<String, Playlist> playLists;
+	private Track actTitle;
+	private Playlist actPlaylist;
+	private PlayListManager plm;
+	
 	public MP3Player() {
 		// TODO Auto-generated constructor stub
+		plm = new PlayListManager();
+		playLists = plm.getPlayLists();
 	}
 	
 	
 	
 	public Track getActTrack() {
-		return actTrack;
+		return actTitle;
+	}
+	
+	public Playlist getActPlaylist(){
+		return actPlaylist;
+	}
+	
+	public void setActPlaylist(Playlist pl){
+		actPlaylist = pl;
+	}
+	
+	public HashMap<String, Playlist> getPlayLists(){
+		return playLists;
 	}
 
 
 
 	public void setActTrack(Track actTrack) {
-		this.actTrack = actTrack;
+		this.actTitle = actTrack;
 	}
 
 
@@ -50,7 +68,7 @@ public class MP3Player {
 	public void fxplay(){
 		
 		
-		mp = new MediaPlayer(new Media(actTrack.getSoundFile()));
+		mp = new MediaPlayer(new Media(actTitle.getSoundFile()));
 		mp.play();
 		
 	}
@@ -60,8 +78,8 @@ public class MP3Player {
 			
 			playing = true;
 		try {
-			pl = new Player(new FileInputStream(actTrack.getSoundFile()));
-	        pl = new Player(new FileInputStream(actTrack.getSoundFile()));
+			pl = new Player(new FileInputStream(actTitle.getSoundFile()));
+	        pl = new Player(new FileInputStream(actTitle.getSoundFile()));
 			pl.play();
 			
 		} catch (JavaLayerException e) {

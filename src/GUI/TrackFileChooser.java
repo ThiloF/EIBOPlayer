@@ -6,6 +6,12 @@ import javax.swing.JFileChooser;
 
 public class TrackFileChooser extends JFileChooser {
 
+	private boolean searchMode = false;
+	
+	public TrackFileChooser(boolean isDirectorieSearch){
+		this.searchMode = isDirectorieSearch;
+		this.setMultiSelectionEnabled(true);
+	}
 	
 	public boolean accept(File f) {
 	      // Auch Unterverzeichnisse anzeigen

@@ -18,9 +18,7 @@ import Business.Track;
 
 public class PlayListPanel extends JPanel {
 
-	private HashMap<String, Playlist> playList;
-	private Track actTitle;
-	private Playlist actPlaylist;
+	
 
 	private JList<String> choosePlayList;
 	private JList<String> chooseTrack;
@@ -30,15 +28,10 @@ public class PlayListPanel extends JPanel {
 	private MP3Player mp3;
 
 	public PlayListPanel(MP3Player mp3) {
-		PlayListManager plm = new PlayListManager();
-		this.playList = plm.getPlayLists();
 		this.mp3 = mp3;
 		init();
 	}
 	
-	public Track getTrack(){
-		return actTitle;
-	}
 
 	private void init() {
 
@@ -57,7 +50,8 @@ public class PlayListPanel extends JPanel {
 				if (e.getValueIsAdjusting())
 					return;
 
-				actPlaylist = playList.get(playListTitle.get(choosePlayList.getSelectedIndex()));
+				//actPlaylist = playList.get(playListTitle.get(choosePlayList.getSelectedIndex()));
+				mp3.setActPlaylist(mp3.getPlayLists().get(playListTitle.get(choosePlayList.getSelectedIndex())));
 
 				fillTrackList();
 
@@ -69,7 +63,8 @@ public class PlayListPanel extends JPanel {
 			@Override
 			public void valueChanged(ListSelectionEvent arg0) {
 				// TODO Auto-generated method stub
-				mp3.setActTrack(actPlaylist.getTitle(trackTitle.get(chooseTrack.getSelectedIndex())));
+				//mp3.setActTrack(actPlaylist.getTitle(trackTitle.get(chooseTrack.getSelectedIndex())));
+				mp3.setActTrack(mp3.getActPlaylist().getTitle(trackTitle.get(chooseTrack.getSelectedIndex())));
 			}
 		});
 
@@ -83,7 +78,7 @@ public class PlayListPanel extends JPanel {
 
 		ArrayList<String> title = new ArrayList<String>();
 
-		for (Playlist pl : playList.values()) {
+		for (Playlist pl : mp3.getPlayLists().values()) {
 			playListTitle.addElement(pl.getTitle());
 		}
 
@@ -93,7 +88,7 @@ public class PlayListPanel extends JPanel {
 
 		trackTitle.clear();
 
-		for (Track t : actPlaylist.getList()) {
+		for (Track t : mp3.getActPlaylist().getList()) {
 			trackTitle.addElement(t.getTitle());
 		}
 	}
