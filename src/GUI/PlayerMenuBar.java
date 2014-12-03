@@ -8,17 +8,21 @@ import javax.swing.AbstractAction;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 
+import Business.MP3Player;
 import Business.PlayListManager;
+import Business.Track;
 
 
 public class PlayerMenuBar extends JMenuBar {
 
 	private TrackFileChooser tfc = new TrackFileChooser(true);
 	private PlayListManager plm = new PlayListManager();
+	private MP3Player mp3;
 	
 	
-	public PlayerMenuBar() {
+	public PlayerMenuBar(MP3Player mp3) {
 		// TODO Auto-generated constructor stub
+		this.mp3 = mp3;
 		init();
 	}
 	
@@ -47,9 +51,8 @@ public class PlayerMenuBar extends JMenuBar {
 				// TODO Auto-generated method stub
 				tfc.showOpenDialog(null);
 				File[] newTracks = tfc.getSelectedFiles();
-				
-				for(File f: newTracks){
-					System.out.println(" # gewählte Titel " + f.getName());
+					for(File f: newTracks){
+						mp3.getActPlaylist().addTrack(new Track(f));
 					}
 				}
 				

@@ -48,7 +48,7 @@ public class PlayerGui extends JFrame {
 	    titleDuration.setPreferredSize(new Dimension(200, 25));
 	    
 	    
-		pmb = new PlayerMenuBar();
+		pmb = new PlayerMenuBar(mp3);
 		
 		
 
@@ -66,7 +66,7 @@ public class PlayerGui extends JFrame {
 					public void run() {
 						if (!mp3.isPlaying()) {
 						//	this.setName(plp.getTrack().getTitle());
-							mp3.fxplay();
+						
 							playStop.setText("stop");
 						} else {
 							mp3.stop();

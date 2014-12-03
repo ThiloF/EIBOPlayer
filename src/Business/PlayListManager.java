@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
+import org.jaudiotagger.audio.AudioFile;
+
 import Business.Track;
 
 public class PlayListManager {

@@ -1,4 +1,18 @@
 package Business;
+
+import java.io.File;
+import java.io.IOException;
+
+import org.jaudiotagger.audio.AudioFile;
+import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.audio.AudioHeader;
+import org.jaudiotagger.audio.exceptions.CannotReadException;
+import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
+import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
+import org.jaudiotagger.tag.FieldKey;
+import org.jaudiotagger.tag.Tag;
+import org.jaudiotagger.tag.TagException;
+
 public class Track {
 	private long id;
 	private String title;
@@ -18,6 +32,38 @@ public class Track {
 	
 	public Track(String title, int length, String interpret, String path){
 		this(0, title, length, "null",interpret, path);
+	}
+	
+	public Track(File f){
+		
+		try {
+			
+			AudioFile af = AudioFileIO.read(f);
+			Tag tag = af.getTag();
+			AudioHeader ah = af.getAudioHeader();
+			
+			this.albumTitle = tag.getFirst(FieldKey.ALBUM);
+			this.title = tag.getFirst(FieldKey.TITLE);
+			this.band = tag.getFirst(FieldKey.ARTIST);
+			this.length = ah.getTrackLength();
+			
+		} catch (CannotReadException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TagException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ReadOnlyFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidAudioFrameException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	public long getId() {
