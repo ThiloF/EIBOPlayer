@@ -65,13 +65,7 @@ public class MP3Player {
 	}
 	
 	
-	public void fxplay(){
-		
-		
-		mp = new MediaPlayer(new Media(actTitle.getSoundFile()));
-		mp.play();
-		
-	}
+	
 	
 	
 	public void play() {
