@@ -34,6 +34,11 @@ public class Track {
 		this(0, title, length, "null",interpret, path);
 	}
 	
+	/*
+	 * Kunstruktor fuer den Audiotager
+	 * 
+	 */
+	
 	public Track(File f){
 		
 		try {
