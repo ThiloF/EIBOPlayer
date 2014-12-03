@@ -41,11 +41,14 @@ public class Track {
 	
 	public Track(File f){
 		
+			this(f.getName(), 0, "unbekannt", f.getAbsolutePath());
+			
 		try {
 			
 			AudioFile af = AudioFileIO.read(f);
 			Tag tag = af.getTag();
 			AudioHeader ah = af.getAudioHeader();
+			
 			
 			this.albumTitle = tag.getFirst(FieldKey.ALBUM);
 			this.title = tag.getFirst(FieldKey.TITLE);

@@ -8,6 +8,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 
+import Business.M3UManager;
 import Business.MP3Player;
 import Business.PlayListManager;
 import Business.Track;
@@ -18,11 +19,13 @@ public class PlayerMenuBar extends JMenuBar {
 	private TrackFileChooser tfc = new TrackFileChooser(true);
 	private PlayListManager plm = new PlayListManager();
 	private MP3Player mp3;
+	private M3UManager m3um;
 	
 	
 	public PlayerMenuBar(MP3Player mp3) {
 		// TODO Auto-generated constructor stub
 		this.mp3 = mp3;
+		this.m3um = new M3UManager();
 		init();
 	}
 	
@@ -52,7 +55,10 @@ public class PlayerMenuBar extends JMenuBar {
 				tfc.showOpenDialog(null);
 				File[] newTracks = tfc.getSelectedFiles();
 					for(File f: newTracks){
+
 						mp3.getActPlaylist().addTrack(new Track(f));
+						m3um.writePlayList(mp3.getActPlaylist());
+						
 					}
 				}
 				
