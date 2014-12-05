@@ -74,6 +74,12 @@ public class PlayListPanel extends JPanel {
 		add(new JScrollPane(chooseTrack));
 	}
 
+	
+	/**
+	 * Laed die Playlisten in das dafuer zuständige Listmodel (PlaylistTitle).
+	 * 
+	 */
+	
 	private void fillPlayListTitle() {
 
 		ArrayList<String> title = new ArrayList<String>();
@@ -83,6 +89,11 @@ public class PlayListPanel extends JPanel {
 		}
 
 	}
+	
+	/**
+	 * Laed die Track in das dafuer zuständige Listmodel (Tracktitle)
+	 * 
+	 */
 
 	private void fillTrackList() {
 

@@ -114,17 +114,5 @@ public class M3UManager {
 		return tracks;
 	}
 
-	public static void matchTrack(String s) {
-
-		// String text = "#EXTINF:221,Queen - Bohemian Rhapsody";
-		String text = s;
-
-		Matcher m = Pattern.compile("^#EXTINF:([0-9]*),(.*?)$").matcher(text);
-
-		m.find();
-		System.out.println(m.group(1));
-		System.out.println(m.group(2));
-
-	}
 
 }
