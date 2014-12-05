@@ -18,6 +18,15 @@ import Business.Track;
 
 public class M3UManager {
 
+	
+	/**
+	 * Diese Methode writePlayList bekommt als Parameter eine Playlist übergeben und speichert diese als
+	 *  erweiterte M3U
+	 * 
+	 * @param pl
+	 */
+	
+	
 	public static void writePlayList(Playlist pl) {
 		try (PrintWriter write = new PrintWriter(new FileWriter(pl.getTitle() + ".m3u"))) {
 			ArrayList<Track> tracks = pl.getList();
@@ -33,6 +42,14 @@ public class M3UManager {
 
 	// sucht in einem Ordner nach allen M3us
 
+	/**
+	 * Die Methode getM3Us durchsucht ein Verzeichniss nach m3us und gibt diese 
+	 * in einer ArrayList vom Typ File zurück
+	 * 
+	 * @param p
+	 * @return
+	 */
+	
 	static ArrayList<File> getM3Us(String p) {
 		ArrayList<File> m3uFiles = new ArrayList<File>();
 		Path dirpath = Paths.get(p);
@@ -49,38 +66,13 @@ public class M3UManager {
 		return m3uFiles;
 	}
 
-	static ArrayList<Track> getTracksfromM3Udoof(File f) {
-		String title;
-		String interpret;
-		String path;
-		int length;
-		ArrayList<Track> tracks = new ArrayList<Track>();
-		String tmp;
-
-		try (BufferedReader reader = new BufferedReader(new FileReader(f))) {
-			tmp = reader.readLine();
-
-			while (tmp != null) {
-				tmp = reader.readLine();
-				try {
-					Matcher m = Pattern.compile("^#EXTINF:([0-9]*),(.*?)$").matcher(tmp);
-					m.find();
-					length = Integer.parseInt(m.group(1));
-					title = m.group(2);
-					tmp = reader.readLine();
-					path = tmp;
-					tracks.add(new Track(title, length, "test", path));
-				} catch (Exception ex) {
-					System.out.println("Der Fehler lautet: " + tmp);
-					ex.printStackTrace();
-				}
-			}
-
-		} catch (IOException ioe) {
-			System.out.println("Fehler bei lesen der Tracks");
-		}
-		return tracks;
-	}
+	/**
+	 * Diese Methode entnimmt aus einer M3Ufile die einzelnen Tracks
+	 * 
+	 * 
+	 * @param f
+	 * @return
+	 */
 
 	static ArrayList<Track> getTracksfromM3U(File f) {
 		String title = null;

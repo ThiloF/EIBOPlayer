@@ -14,6 +14,15 @@ import org.jaudiotagger.audio.AudioFile;
 
 import Business.Track;
 
+/**
+ * 
+ * @author tfalk001
+ * 
+ * Die Klasse Playlistmanager kann alle gespeicherten Listen laden und in sich speichern. 
+ * 
+ *
+ */
+
 public class PlayListManager {
 
 	private HashMap<String, Playlist> playLists = new HashMap<String, Playlist>();
@@ -22,13 +31,36 @@ public class PlayListManager {
 		loadPlayList("");
 	}
 
+	/**
+	 * Liefert alle geladenen Playlisten
+	 * 
+	 * 
+	 * @return
+	 */
+	
 	public HashMap<String, Playlist> getPlayLists() {
 		return playLists;
 	}
+	
+	/**
+	 * Liefert die gesuchte Playlist aus allen geladenen Playlisten
+	 * 
+	 * @param name
+	 * @return
+	 */
 
 	public Playlist getPlayList(String name) {
 		return playLists.get(name);
 	}
+	
+	/**
+	 * liefert den gesuchten Track aus der PLaylist
+	 * 
+	 * 
+	 * @param pl
+	 * @param title
+	 * @return
+	 */
 
 	public Track getTrack(Playlist pl, String title) {
 
@@ -66,6 +98,11 @@ public class PlayListManager {
 		}
 
 	}
+	
+	/*
+	 * Dient nur zum debuggen SPÄTER RAUSSCHMEISSEN !!!
+	 * 
+	 */
 
 	public void print() {
 		ArrayList<Track> tracks;
