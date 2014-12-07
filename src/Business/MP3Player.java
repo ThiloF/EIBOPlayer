@@ -4,12 +4,11 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
+
 
 import javax.imageio.stream.FileImageInputStream;
 
-import com.sun.media.jfxmedia.track.AudioTrack;
+
 
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.*;
@@ -17,7 +16,7 @@ import javazoom.jl.player.*;
 public class MP3Player {
 
 	private Player pl;
-	private MediaPlayer mp;
+	
 	private boolean playing = false;
 	private HashMap<String, Playlist> playLists;
 	private Track actTitle;
@@ -30,7 +29,9 @@ public class MP3Player {
 		playLists = plm.getPlayLists();
 	}
 	
-	
+	public PlayListManager getPlayListManager(){
+		return plm;
+	}
 	
 	public Track getActTrack() {
 		return actTitle;

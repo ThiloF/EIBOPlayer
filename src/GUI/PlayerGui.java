@@ -23,10 +23,12 @@ public class PlayerGui extends JFrame {
 	private PlayerMenuBar pmb;
 	private JPanel southPanel;
 	private JTextField titleDuration;
+	private final PlayListPanel plp;
 	
 	public PlayerGui(MP3Player mp) {
 		super("Player");
 		mp3 = mp;
+		plp = new PlayListPanel(mp);
 		// choosePlayList = new JComboBox();
 		// chooseTrack = new JComboBox();
 		
@@ -36,19 +38,21 @@ public class PlayerGui extends JFrame {
 		init();
 	}
 	
-	
+	public PlayListPanel getPLayLisPanel(){
+		return plp;
+	}
 
 	private void init() {
 
 		playStop = new JButton("play");
-	    final PlayListPanel plp = new PlayListPanel(mp3);
+	   
 	    
 	    southPanel = new JPanel();
 	    titleDuration = new JTextField();
 	    titleDuration.setPreferredSize(new Dimension(200, 25));
 	    
 	    
-		pmb = new PlayerMenuBar(mp3);
+		pmb = new PlayerMenuBar(mp3,this);
 		
 		
 

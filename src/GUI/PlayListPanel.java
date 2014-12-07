@@ -103,5 +103,15 @@ public class PlayListPanel extends JPanel {
 			trackTitle.addElement(t.getTitle());
 		}
 	}
+	
+	public void updatePlayLists(){
+		playListTitle.clear();
+		fillPlayListTitle();
+	}
+	
+	public void updateTracklist(){
+		trackTitle.clear();
+		fillTrackList();
+	}
 
 }

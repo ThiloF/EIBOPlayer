@@ -53,6 +53,10 @@ public class PlayListManager {
 		return playLists.get(name);
 	}
 	
+	public void addPlayList(String name, Playlist pl){
+		playLists.put(name, pl);
+	}
+	
 	/**
 	 * liefert den gesuchten Track aus der PLaylist
 	 * 

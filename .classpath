@@ -7,6 +7,5 @@
 	<classpathentry kind="lib" path="src/mp3spi1.9.4.jar"/>
 	<classpathentry kind="lib" path="src/tritonus_share.jar"/>
 	<classpathentry kind="lib" path="jaudiotagger-2.2.2.jar"/>
-	<classpathentry kind="lib" path="/opt/jdk1.8.0_20/jre/lib/ext/jfxrt.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
