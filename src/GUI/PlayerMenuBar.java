@@ -79,6 +79,16 @@ public class PlayerMenuBar extends JMenuBar {
 			}
 		});
 		
+		playList.add(new AbstractAction("Track aus ausgewählter Playlist löschen") {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+				
+			}
+		});
+		
 		
 		add(fileMenu);
 		add(playList);

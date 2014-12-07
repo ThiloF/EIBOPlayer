@@ -144,4 +144,14 @@ public class PlayListManager {
 		}
 		return mp3list;
 	}
+	
+	public void removeTrackFromPlaylist(Playlist pl, Track track){
+		for(Track t: pl.list){
+			if(t.equals(track)){
+				pl.list.remove(t);
+				return;
+			}
+		}
+	}
+	
 }
