@@ -20,13 +20,16 @@ public class PlayerMenuBar extends JMenuBar {
 	private PlayListManager plm = new PlayListManager();
 	private MP3Player mp3;
 	private M3UManager m3um;
+	private PlayerGui maingui;
 	
 	
-	public PlayerMenuBar(MP3Player mp3) {
+	public PlayerMenuBar(MP3Player mp3, PlayerGui pg) {
 		// TODO Auto-generated constructor stub
 		this.mp3 = mp3;
 		this.m3um = new M3UManager();
+		maingui = pg;
 		init();
+		
 	}
 	
 	private void init(){
@@ -57,6 +60,7 @@ public class PlayerMenuBar extends JMenuBar {
 					for(File f: newTracks){
 
 						mp3.getActPlaylist().addTrack(new Track(f));
+						maingui.getPLayLisPanel().updateTracklist();
 						m3um.writePlayList(mp3.getActPlaylist());
 						
 					}
@@ -70,6 +74,17 @@ public class PlayerMenuBar extends JMenuBar {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
+				PLayListNameDialog plnd = new PLayListNameDialog(mp3, maingui);
+				
+			}
+		});
+		
+		playList.add(new AbstractAction("Track aus ausgewählter Playlist löschen") {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				
 				
 			}
 		});

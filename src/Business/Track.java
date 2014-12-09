@@ -43,34 +43,6 @@ public class Track {
 		
 			this(f.getName(), 0, "unbekannt", f.getAbsolutePath());
 			
-		try {
-			
-			AudioFile af = AudioFileIO.read(f);
-			Tag tag = af.getTag();
-			AudioHeader ah = af.getAudioHeader();
-			
-			
-			this.albumTitle = tag.getFirst(FieldKey.ALBUM);
-			this.title = tag.getFirst(FieldKey.TITLE);
-			this.band = tag.getFirst(FieldKey.ARTIST);
-			this.length = ah.getTrackLength();
-			
-		} catch (CannotReadException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (TagException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ReadOnlyFileException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvalidAudioFrameException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 	}
 
