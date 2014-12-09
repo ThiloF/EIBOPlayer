@@ -34,8 +34,8 @@ public class PlayerGui extends JFrame {
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(400, 400);
-		setVisible(true);
 		init();
+		setVisible(true);
 	}
 	
 	public PlayListPanel getPLayLisPanel(){
@@ -91,7 +91,8 @@ public class PlayerGui extends JFrame {
 		add(southPanel, BorderLayout.SOUTH);
 		add(plp, BorderLayout.CENTER);
 		
-
+		pack();
+				
 		// showPlayList();
 
 	}
