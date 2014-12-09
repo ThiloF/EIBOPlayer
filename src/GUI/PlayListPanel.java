@@ -4,12 +4,16 @@ import Business.PlayListManager;
 import Business.Playlist;
 
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -26,6 +30,8 @@ public class PlayListPanel extends JPanel {
 	private DefaultListModel<String> trackTitle;
 	private JPanel contentCenter;
 	private MP3Player mp3;
+	
+   
 
 	public PlayListPanel(MP3Player mp3) {
 		this.mp3 = mp3;
@@ -40,6 +46,9 @@ public class PlayListPanel extends JPanel {
 		choosePlayList = new JList<String>(playListTitle);
 		trackTitle = new DefaultListModel<String>();
 		chooseTrack = new JList<String>(trackTitle);
+	
+		
+	
 
 
 		choosePlayList.addListSelectionListener(new ListSelectionListener() {
