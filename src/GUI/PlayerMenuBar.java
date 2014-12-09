@@ -1,32 +1,28 @@
 package GUI;
-import java.awt.Desktop.Action;
 import java.awt.event.ActionEvent;
 import java.io.File;
-import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 
-import Business.M3UManager;
-import Business.MP3Player;
-import Business.PlayListManager;
+import Business.FileManager;
+import Business.MusicPlayer;
 import Business.Track;
 
 
 public class PlayerMenuBar extends JMenuBar {
 
 	private TrackFileChooser tfc = new TrackFileChooser(true);
-	private PlayListManager plm = new PlayListManager();
-	private MP3Player mp3;
-	private M3UManager m3um;
+	private MusicPlayer mp3;
+	private FileManager m3um;
 	private PlayerGui maingui;
 	
 	
-	public PlayerMenuBar(MP3Player mp3, PlayerGui pg) {
+	public PlayerMenuBar(MusicPlayer mp3, PlayerGui pg) {
 		// TODO Auto-generated constructor stub
 		this.mp3 = mp3;
-		this.m3um = new M3UManager();
+		this.m3um = new FileManager();
 		maingui = pg;
 		init();
 		
@@ -59,9 +55,9 @@ public class PlayerMenuBar extends JMenuBar {
 				File[] newTracks = tfc.getSelectedFiles();
 					for(File f: newTracks){
 
-						mp3.getActPlaylist().addTrack(new Track(f));
-						maingui.getPLayLisPanel().updateTracklist();
-						m3um.writePlayList(mp3.getActPlaylist());
+						mp3.getPlaylist().addTrack(new Track(f));
+						maingui.getPlayLisPanel().updateTracklist();
+						m3um.writePlayListToM3U(mp3.getPlaylist());
 						
 					}
 				}

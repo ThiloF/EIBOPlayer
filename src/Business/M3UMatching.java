@@ -2,7 +2,6 @@ package Business;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 public class M3UMatching {
 
 	public static void main(String[] args) {
@@ -14,8 +13,6 @@ public class M3UMatching {
 		m.find();
 		System.out.println(m.group(1));
 		System.out.println(m.group(2));
-		
-		
 		
 	}
 

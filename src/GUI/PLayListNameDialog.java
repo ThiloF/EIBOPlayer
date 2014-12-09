@@ -6,11 +6,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
-import Business.M3UManager;
-import Business.MP3Player;
-import Business.PlayListManager;
+import Business.FileManager;
+import Business.Library;
+import Business.MusicPlayer;
 import Business.Playlist;
 import Business.Track;
 
@@ -18,10 +21,10 @@ public class PLayListNameDialog extends JDialog {
 
 	private JTextField name;
 	private JButton speichern;
-	private MP3Player mp3;
+	private MusicPlayer mp3;
 	private PlayerGui mainGui;
 	
-	public PLayListNameDialog(MP3Player mp3, PlayerGui pg){
+	public PLayListNameDialog(MusicPlayer mp3, PlayerGui pg){
 		this.mp3 = mp3;
 		name = new JTextField();
 		speichern = new JButton("speichern");
@@ -52,12 +55,12 @@ public class PLayListNameDialog extends JDialog {
 	
 	private void createNewPlayList(){
 		
-		PlayListManager plm = mp3.getPlayListManager();
+		Library library = mp3.getLibrary();
 		String listname = name.getText();
 		Playlist pl = new Playlist(listname, new ArrayList<Track>());
-		plm.addPlayList(listname, pl);
-		mainGui.getPLayLisPanel().updatePlayLists();
-		M3UManager.writePlayList(pl);
+		library.add(pl);
+		mainGui.getPlayLisPanel().updatePlayLists();
+		FileManager.writePlayListToM3U(pl);
 		
 		
 	}

@@ -1,39 +1,31 @@
 package GUI;
-import Business.MP3Player;
-import Business.PlayListManager;
-import Business.Playlist;
-
 import java.awt.GridLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import Business.MusicPlayer;
+import Business.Playlist;
 import Business.Track;
 
 public class PlayListPanel extends JPanel {
 
+	private static final long serialVersionUID = -788008274752915816L;
 	
-
 	private JList<String> choosePlayList;
 	private JList<String> chooseTrack;
 	private DefaultListModel<String> playListTitle;
 	private DefaultListModel<String> trackTitle;
 	private JPanel contentCenter;
-	private MP3Player mp3;
+	private MusicPlayer mp3;
 	
    
 
-	public PlayListPanel(MP3Player mp3) {
+	public PlayListPanel(MusicPlayer mp3) {
 		this.mp3 = mp3;
 		init();
 	}
@@ -55,12 +47,11 @@ public class PlayListPanel extends JPanel {
 
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				// TODO Auto-generated method stub
 				if (e.getValueIsAdjusting())
 					return;
 
 				//actPlaylist = playList.get(playListTitle.get(choosePlayList.getSelectedIndex()));
-				mp3.setActPlaylist(mp3.getPlayLists().get(playListTitle.get(choosePlayList.getSelectedIndex())));
+				mp3.selectPlaylist(mp3.getLibrary().getPlaylists().get(choosePlayList.getSelectedIndex()));
 
 				fillTrackList();
 
@@ -73,7 +64,7 @@ public class PlayListPanel extends JPanel {
 			public void valueChanged(ListSelectionEvent arg0) {
 				// TODO Auto-generated method stub
 				//mp3.setActTrack(actPlaylist.getTitle(trackTitle.get(chooseTrack.getSelectedIndex())));
-				mp3.setActTrack(mp3.getActPlaylist().getTitle(trackTitle.get(chooseTrack.getSelectedIndex())));
+				mp3.selectTrack(mp3.getPlaylist().getTitle(trackTitle.get(chooseTrack.getSelectedIndex())));
 			}
 		});
 
@@ -91,9 +82,7 @@ public class PlayListPanel extends JPanel {
 	
 	private void fillPlayListTitle() {
 
-		ArrayList<String> title = new ArrayList<String>();
-
-		for (Playlist pl : mp3.getPlayLists().values()) {
+		for (Playlist pl : mp3.getLibrary().getPlaylists()) {
 			playListTitle.addElement(pl.getTitle());
 		}
 
@@ -108,7 +97,7 @@ public class PlayListPanel extends JPanel {
 
 		trackTitle.clear();
 
-		for (Track t : mp3.getActPlaylist().getList()) {
+		for (Track t : mp3.getPlaylist().getList()) {
 			trackTitle.addElement(t.getTitle());
 		}
 	}

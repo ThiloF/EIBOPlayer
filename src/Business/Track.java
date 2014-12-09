@@ -1,28 +1,15 @@
 package Business;
 
 import java.io.File;
-import java.io.IOException;
-
-import org.jaudiotagger.audio.AudioFile;
-import org.jaudiotagger.audio.AudioFileIO;
-import org.jaudiotagger.audio.AudioHeader;
-import org.jaudiotagger.audio.exceptions.CannotReadException;
-import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
-import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
-import org.jaudiotagger.tag.FieldKey;
-import org.jaudiotagger.tag.Tag;
-import org.jaudiotagger.tag.TagException;
 
 public class Track {
-	private long id;
 	private String title;
 	private int length;
 	private String albumTitle;
 	private String band;
-	private String soundFile;
+	private File soundFile;
 
-	public Track(long id, String title, int length, String albumTitle, String band, String soundFile) {
-		this.id = id;
+	public Track(String title, int length, String albumTitle, String band, File soundFile) {
 		this.title = title;
 		this.length = length;
 		this.albumTitle = albumTitle;
@@ -30,8 +17,8 @@ public class Track {
 		this.soundFile = soundFile;
 	}
 	
-	public Track(String title, int length, String interpret, String path){
-		this(0, title, length, "null",interpret, path);
+	public Track(String title, int length, String interpret, File path){
+		this(title, length, "null",interpret, path);
 	}
 	
 	/*
@@ -41,17 +28,9 @@ public class Track {
 	
 	public Track(File f){
 		
-			this(f.getName(), 0, "unbekannt", f.getAbsolutePath());
+			this(f.getName(), 0, "unbekannt", f);
 			
 		
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	public String getTitle() {
@@ -86,12 +65,8 @@ public class Track {
 		this.band = band;
 	}
 
-	public String getSoundFile() {
+	public File getSoundFile() {
 		return soundFile;
-	}
-
-	public void setSoundFile(String soundFile) {
-		this.soundFile = soundFile;
 	}
 
 }

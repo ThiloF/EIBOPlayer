@@ -3,29 +3,27 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import Business.MP3Player;
-import Business.Playlist;
-import Business.Track;
+import Business.MusicPlayer;
 
 public class PlayerGui extends JFrame {
 
+	private static final long serialVersionUID = 5732432854906666184L;
+
 	private JButton playStop;
 
-
-	private MP3Player mp3;
+	private MusicPlayer mp3;
 	private PlayerMenuBar pmb;
 	private JPanel southPanel;
 	private JTextField titleDuration;
 	private final PlayListPanel plp;
 	
-	public PlayerGui(MP3Player mp) {
+	public PlayerGui(MusicPlayer mp) {
 		super("Player");
 		mp3 = mp;
 		plp = new PlayListPanel(mp);
@@ -38,7 +36,7 @@ public class PlayerGui extends JFrame {
 		setVisible(true);
 	}
 	
-	public PlayListPanel getPLayLisPanel(){
+	public PlayListPanel getPlayLisPanel(){
 		return plp;
 	}
 
@@ -54,31 +52,10 @@ public class PlayerGui extends JFrame {
 	    
 		pmb = new PlayerMenuBar(mp3,this);
 		
-		
-
-		
 		playStop.addActionListener(new ActionListener() {
-
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				// playStop.setText("pause");
-				// mp3.play(actTitle.getSoundFile());
-
-				// playStop.setText("stop");
-				//playStop.setText("stop");
-				
-				new Thread() {
-					public void run() {
-						if (!mp3.isPlaying()) {
-						//	this.setName(plp.getTrack().getTitle());
-						
-							playStop.setText("stop");
-						} else {
-							mp3.stop();
-							playStop.setText("play");
-						}
-					}
-				}.start();
-
+				mp3.play();
 			}
 		});
 		

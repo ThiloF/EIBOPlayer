@@ -1,7 +1,7 @@
 package Business;
+
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,20 +14,15 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import Business.Track;
+public class FileManager {
 
-public class M3UManager {
-
-	
 	/**
-	 * Diese Methode writePlayList bekommt als Parameter eine Playlist übergeben und speichert diese als
-	 *  erweiterte M3U
+	 * Diese Methode writePlayList bekommt als Parameter eine Playlist
+	 * übergeben und speichert diese als erweiterte M3U
 	 * 
 	 * @param pl
 	 */
-	
-	
-	public static void writePlayList(Playlist pl) {
+	public static void writePlayListToM3U(Playlist pl) {
 		try (PrintWriter write = new PrintWriter(new FileWriter(pl.getTitle() + ".m3u"))) {
 			ArrayList<Track> tracks = pl.getList();
 			write.println("#EXTM3U");
@@ -40,16 +35,14 @@ public class M3UManager {
 		}
 	}
 
-	// sucht in einem Ordner nach allen M3us
 
 	/**
-	 * Die Methode getM3Us durchsucht ein Verzeichniss nach m3us und gibt diese 
+	 * Die Methode getM3Us durchsucht ein Verzeichnis nach m3us und gibt diese
 	 * in einer ArrayList vom Typ File zurück
 	 * 
 	 * @param p
 	 * @return
 	 */
-	
 	static ArrayList<File> getM3Us(String p) {
 		ArrayList<File> m3uFiles = new ArrayList<File>();
 		Path dirpath = Paths.get(p);
@@ -66,6 +59,15 @@ public class M3UManager {
 		return m3uFiles;
 	}
 
+	
+	public static Playlist getPlaylistFromM3U(File f) {
+		if (!f.exists() || f.isDirectory()) return null;
+		
+		
+		return null;
+	}
+	
+	
 	/**
 	 * Diese Methode entnimmt aus einer M3Ufile die einzelnen Tracks
 	 * 
@@ -73,7 +75,6 @@ public class M3UManager {
 	 * @param f
 	 * @return
 	 */
-
 	static ArrayList<Track> getTracksfromM3U(File f) {
 		String title = null;
 		String interpret;
@@ -88,20 +89,20 @@ public class M3UManager {
 			while ((tmp = reader.readLine()) != null) {
 
 				try {
-					if (tmp.matches("^#EXTM3U$")){
+					if (tmp.matches("^#EXTM3U$")) {
 						continue;
 					}
 					Matcher m = Pattern.compile("^#EXTINF:([0-9]*),(.*?)$").matcher(tmp);
 					if (m.matches()) {
 						length = Integer.parseInt(m.group(1));
 						title = m.group(2);
-						tracks.add(new Track(title, length, "test", reader.readLine()));
+						tracks.add(new Track(title, length, "test", new File(reader.readLine())));
 					} else {
-						tracks.add(new Track("no title", -1, "test", tmp));
-						
+						tracks.add(new Track("no title", -1, "test", new File(tmp)));
+
 					}
-					//tmp = reader.readLine();
-					//path = tmp;
+					// tmp = reader.readLine();
+					// path = tmp;
 				} catch (Exception ex) {
 					System.out.println("Der Fehler lautet: " + tmp);
 					ex.printStackTrace();
@@ -113,6 +114,5 @@ public class M3UManager {
 		}
 		return tracks;
 	}
-
 
 }
