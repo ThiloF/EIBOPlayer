@@ -1,4 +1,4 @@
-package GUI;
+package GUI2;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -17,18 +17,21 @@ import Business.MusicPlayer;
 import Business.Playlist;
 import Business.Track;
 
-public class PLayListNameDialog extends JDialog {
+public class PlaylistNameDialog extends JDialog {
+
+	private static final long serialVersionUID = 1L;
+	
+	private GuiMain guiMain;
+	private MusicPlayer player;
 
 	private JTextField name;
 	private JButton speichern;
-	private MusicPlayer mp3;
-	private PlayerGui mainGui;
 	
-	public PLayListNameDialog(MusicPlayer mp3, PlayerGui pg){
-		this.mp3 = mp3;
+	public PlaylistNameDialog(GuiMain guiMain, MusicPlayer player){
+		this.player = player;
 		name = new JTextField();
 		speichern = new JButton("speichern");
-		mainGui = pg;
+		this.guiMain = guiMain;
 		
 		speichern.addActionListener(new ActionListener() {
 			
@@ -55,11 +58,11 @@ public class PLayListNameDialog extends JDialog {
 	
 	private void createNewPlayList(){
 		
-		Library library = mp3.getLibrary();
+		Library library = player.getLibrary();
 		String listname = name.getText();
 		Playlist pl = new Playlist(listname, new ArrayList<Track>());
 		library.add(pl);
-		mainGui.getPlayLisPanel().updatePlayLists();
+		guiMain.guiNorth.guiPlaylists.updatePlayLists();
 		FileManager.writePlaylistToM3U(pl);
 		
 		

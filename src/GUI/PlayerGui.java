@@ -3,6 +3,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,6 +24,7 @@ public class PlayerGui extends JFrame {
 	private JPanel southPanel;
 	private JTextField titleDuration;
 	private final PlayListPanel plp;
+	private ControlPanel ctrlPanel;
 	
 	public PlayerGui(MusicPlayer mp) {
 		super("Player");
@@ -43,6 +46,7 @@ public class PlayerGui extends JFrame {
 	private void init() {
 
 		playStop = new JButton("play");
+		ctrlPanel = new ControlPanel(mp3);
 	   
 	    
 	    southPanel = new JPanel();
@@ -65,15 +69,15 @@ public class PlayerGui extends JFrame {
 		//Container con = getContentPane();
 		setLayout(new BorderLayout());
 		add(pmb, BorderLayout.NORTH);
-		add(southPanel, BorderLayout.SOUTH);
+		add(ctrlPanel, BorderLayout.SOUTH);
 		add(plp, BorderLayout.CENTER);
 		
 		pack();
+		
+		
 				
 		// showPlayList();
 
 	}
-
-
 
 }

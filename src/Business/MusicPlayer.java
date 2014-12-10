@@ -1,5 +1,9 @@
 package Business;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.io.File;
+
 import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
 
@@ -12,12 +16,22 @@ public class MusicPlayer implements IPlayer {
 
 	private Minim minim;
 	private AudioPlayer currentPlayer = null;
+	
+	private PropertyChangeSupport changes = new PropertyChangeSupport(this);
 
 	public MusicPlayer(Library lib) {
 		library = lib;
 		minim = new Minim(new MinimHelper());
 	}
 
+	public void addPropertyChangeListener(PropertyChangeListener l){
+		changes.addPropertyChangeListener(l);
+	}
+	
+	public void removePropertyChangeListener(PropertyChangeListener l){
+		changes.removePropertyChangeListener(l);
+	}
+	
 	public void close() {
 		stop();
 		minim.dispose();
@@ -28,6 +42,7 @@ public class MusicPlayer implements IPlayer {
 		stop();
 		currentPlayer = minim.loadFile(currentTrack.getSoundFile().getPath());
 		currentPlayer.play();
+		changes.firePropertyChange("status", new String("play"), "stop");
 	}
 
 	@Override
@@ -39,18 +54,18 @@ public class MusicPlayer implements IPlayer {
 
 	@Override
 	public void skip() {
-		int index = currentPlaylist.getList().indexOf(currentTrack);
+		int index = currentPlaylist.getTracks().indexOf(currentTrack);
 		selectTrackNumber(index + 1);
 	}
 
 	@Override
 	public void skipBack() {
-		int index = currentPlaylist.getList().indexOf(currentTrack);
+		int index = currentPlaylist.getTracks().indexOf(currentTrack);
 		selectTrackNumber(index - 1);
 	}
 
 	public void selectTrackNumber(int num) {
-		int length = currentPlaylist.getList().size();
+		int length = currentPlaylist.getTracks().size();
 		num = (num + length) % length;
 	}
 
@@ -91,6 +106,19 @@ public class MusicPlayer implements IPlayer {
 	@Override
 	public void skipTo(int offset) {
 		currentPlayer.skip(offset - currentPlayer.position());
+	}
+	
+	public void save() {
+		library.save(currentPlaylist);
+	}
+	
+	public void addTrackToPlaylist(Track track) {
+		currentPlaylist.addTrack(track);
+		library.save(currentPlaylist);
+	}
+	
+	public Track getTrackFromFile(File file) {
+		return FileManager.getTrackFromFile(file, minim);
 	}
 
 }

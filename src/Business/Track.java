@@ -20,18 +20,6 @@ public class Track {
 	public Track(String title, int length, String interpret, File path){
 		this(title, length, "null",interpret, path);
 	}
-	
-	/*
-	 * Kunstruktor fuer den Audiotager
-	 * 
-	 */
-	
-	public Track(File f){
-		
-			this(f.getName(), 0, "unbekannt", f);
-			
-		
-	}
 
 	public String getTitle() {
 		return title;

@@ -1,5 +1,6 @@
-package GUI;
+package GUI2;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -15,24 +16,29 @@ import Business.MusicPlayer;
 import Business.Playlist;
 import Business.Track;
 
-public class PlayListPanel extends JPanel {
+public class GuiPlaylists extends JPanel {
 
-	private static final long serialVersionUID = -788008274752915816L;
+	private static final long serialVersionUID = 1L;
 
+	private GuiMain guiMain;
+	private MusicPlayer player;
+	
 	private JList<String> choosePlayList;
 	private JList<String> chooseTrack;
 	private DefaultListModel<String> playListTitle;
 	private DefaultListModel<String> trackTitle;
 	private JPanel contentCenter;
-	private MusicPlayer mp3;
-
-	public PlayListPanel(MusicPlayer mp3) {
-		this.mp3 = mp3;
+	
+	public GuiPlaylists(GuiMain guiMain, MusicPlayer player) {
+		this.guiMain = guiMain;
+		this.player = player;
 		init();
 	}
-
+	
 	private void init() {
-
+		
+		setBackground(Color.blue);
+		
 		playListTitle = new DefaultListModel<String>();
 		fillPlayListTitle();
 		choosePlayList = new JList<String>(playListTitle);
@@ -48,7 +54,7 @@ public class PlayListPanel extends JPanel {
 				}
 				// actPlaylist =
 				// playList.get(playListTitle.get(choosePlayList.getSelectedIndex()));
-				mp3.selectPlaylist(mp3.getLibrary().getPlaylists().get(choosePlayList.getSelectedIndex()));
+				player.selectPlaylist(player.getLibrary().getPlaylists().get(choosePlayList.getSelectedIndex()));
 
 				fillTrackList();
 
@@ -64,7 +70,7 @@ public class PlayListPanel extends JPanel {
 				}
 				// mp3.setActTrack(actPlaylist.getTitle(trackTitle.get(chooseTrack.getSelectedIndex())));
 				if (chooseTrack.getSelectedIndex() >= 0) {
-					mp3.selectTrack(mp3.getPlaylist().getTitle(trackTitle.get(chooseTrack.getSelectedIndex())));
+					player.selectTrack(player.getPlaylist().getTitle(trackTitle.get(chooseTrack.getSelectedIndex())));
 				}
 
 			}
@@ -75,7 +81,7 @@ public class PlayListPanel extends JPanel {
 			public void keyTyped(KeyEvent e) {
 				if (e.getKeyChar() == KeyEvent.VK_DELETE) {
 					System.out.println("DELETE!");
-					mp3.getLibrary().removeTrackFromPlaylist(mp3.getPlaylist(), mp3.getTrack());
+					player.getLibrary().removeTrackFromPlaylist(player.getPlaylist(), player.getTrack());
 					
 					updateTracklist();
 				}
@@ -95,7 +101,7 @@ public class PlayListPanel extends JPanel {
 
 	private void fillPlayListTitle() {
 
-		for (Playlist pl : mp3.getLibrary().getPlaylists()) {
+		for (Playlist pl : player.getLibrary().getPlaylists()) {
 			playListTitle.addElement(pl.getTitle());
 		}
 
@@ -110,7 +116,7 @@ public class PlayListPanel extends JPanel {
 
 		trackTitle.clear();
 
-		for (Track t : mp3.getPlaylist().getTracks()) {
+		for (Track t : player.getPlaylist().getTracks()) {
 			trackTitle.addElement(t.getTitle());
 		}
 	}
@@ -124,5 +130,5 @@ public class PlayListPanel extends JPanel {
 		trackTitle.clear();
 		fillTrackList();
 	}
-
+	
 }

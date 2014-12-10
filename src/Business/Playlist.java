@@ -8,10 +8,10 @@ public class Playlist {
 	private File coverFile;
 	ArrayList<Track> list = new ArrayList<Track>();
 
-	public Playlist(String title, File coverFile, ArrayList<Track> list) {
+	public Playlist(String title, File coverFile, ArrayList<Track> tracks) {
 		this.title = title;
 		this.coverFile = coverFile;
-		this.list = list;
+		this.list = tracks;
 	}
 
 	public Playlist(String title, ArrayList<Track> tracks) {
@@ -27,7 +27,7 @@ public class Playlist {
 		return null;
 	}
 
-	public ArrayList<Track> getList() {
+	public ArrayList<Track> getTracks() {
 		return list;
 	}
 

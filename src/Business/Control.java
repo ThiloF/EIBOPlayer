@@ -1,5 +1,5 @@
 package Business;
-import GUI.PlayerGui;
+import GUI2.GuiMain;
 
 public class Control {
 
@@ -10,7 +10,7 @@ public class Control {
 		
 		MusicPlayer mp = new MusicPlayer(lib);
 	
-		new PlayerGui(mp);
+		new GuiMain(mp);
 		
 	}
 

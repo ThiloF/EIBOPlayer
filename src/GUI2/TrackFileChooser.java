@@ -1,4 +1,4 @@
-package GUI;
+package GUI2;
 import java.io.File;
 
 import javax.swing.JFileChooser;
