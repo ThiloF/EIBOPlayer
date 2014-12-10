@@ -40,14 +40,14 @@ public class ControlPanel extends JPanel{
 			}
 		});
 		
-		mplayer.addPropertyChangeListener(new PropertyChangeListener() {
+		/*mplayer.addPropertyChangeListener(new PropertyChangeListener() {
 			
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				// TODO Auto-generated method stub
 				playstop.setText((String) evt.getNewValue());
 			}
-		});
+		});*/
 		
 		this.setLayout(new GridLayout(0,3));
 		this.add(skipback);

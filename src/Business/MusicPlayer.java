@@ -1,54 +1,119 @@
 package Business;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
+import Business.Listeners.PlaylistInsertedListener;
+import Business.Listeners.TrackStartedListener;
+import Business.Listeners.TrackStoppedListener;
 import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
 
 public class MusicPlayer implements IPlayer {
+
+	/*
+	 * LISTENERS START
+	 */
+
+	private List<TrackStartedListener> trackStartedListeners = new ArrayList<>();
+	private List<TrackStoppedListener> trackStoppedListeners = new ArrayList<>();
+	private List<PlaylistInsertedListener> playlistInsertedListeners = new ArrayList<>();
+
+	public void addTrackStartedListener(TrackStartedListener listener) {
+		trackStartedListeners.add(listener);
+	}
+
+	public void addTrackStoppedListener(TrackStoppedListener listener) {
+		trackStoppedListeners.add(listener);
+	}
+
+	public void addPlaylistInsertedListener(PlaylistInsertedListener listener) {
+		playlistInsertedListeners.add(listener);
+	}
+
+	public void notifyTrackStartedListener() {
+		trackStartedListeners.forEach(l -> l.trackStarted());
+	}
+
+	public void notifyTrackStoppedListener(boolean cancelled) {
+		trackStoppedListeners.forEach(l -> l.trackStopped(cancelled));
+	}
+
+	public void notifyPlaylistInsertedListener(Playlist playlist) {
+		playlistInsertedListeners.forEach(l -> l.playlistInserted(playlist));
+	}
+
+	/*
+	 * LISTENERS END
+	 */
 
 	private Library library;
 
 	private Playlist currentPlaylist;
 	private Track currentTrack;
 
-	private Minim minim;
+	public static final Minim MINIM = new Minim(new MinimHelper());
 	private AudioPlayer currentPlayer = null;
-	
-	private PropertyChangeSupport changes = new PropertyChangeSupport(this);
+
+	private Thread checkFinishedThread;
 
 	public MusicPlayer(Library lib) {
 		library = lib;
-		minim = new Minim(new MinimHelper());
+		;
 	}
 
-	public void addPropertyChangeListener(PropertyChangeListener l){
-		changes.addPropertyChangeListener(l);
-	}
-	
-	public void removePropertyChangeListener(PropertyChangeListener l){
-		changes.removePropertyChangeListener(l);
-	}
-	
 	public void close() {
 		stop();
-		minim.dispose();
+		MINIM.dispose();
+	}
+
+	private void finished() {
+		notifyTrackStoppedListener(false);
+		System.out.println("ended normally");
+	}
+
+	private void startFinishedChecker() {
+		if (checkFinishedThread != null) {
+			checkFinishedThread.interrupt();
+		}
+		checkFinishedThread = new Thread(new Runnable() {
+			public void run() {
+				while (!checkFinishedThread.isInterrupted()) {
+					if (currentPlayer != null && !currentPlayer.isPlaying()) {
+						finished();
+						break;
+					}
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						checkFinishedThread.interrupt();
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+		checkFinishedThread.setDaemon(true);
+		checkFinishedThread.start();
 	}
 
 	@Override
 	public void play() {
 		stop();
-		currentPlayer = minim.loadFile(currentTrack.getSoundFile().getPath());
+		if (currentTrack == null) {
+			return;
+		}
+		currentPlayer = MINIM.loadFile(currentTrack.getSoundFile().getPath());
 		currentPlayer.play();
-		changes.firePropertyChange("status", new String("play"), "stop");
+		startFinishedChecker();
+		notifyTrackStartedListener();
 	}
 
 	@Override
 	public void stop() {
 		if (currentPlayer != null) {
 			currentPlayer.close();
+			notifyTrackStoppedListener(true);
 		}
 	}
 
@@ -96,6 +161,7 @@ public class MusicPlayer implements IPlayer {
 	@Override
 	public void selectPlaylist(Playlist playlist) {
 		currentPlaylist = playlist;
+		notifyPlaylistInsertedListener(playlist);
 	}
 
 	@Override
@@ -103,22 +169,37 @@ public class MusicPlayer implements IPlayer {
 		return currentTrack;
 	}
 
-	@Override
-	public void skipTo(int offset) {
-		currentPlayer.skip(offset - currentPlayer.position());
-	}
-	
 	public void save() {
 		library.save(currentPlaylist);
 	}
-	
+
 	public void addTrackToPlaylist(Track track) {
 		currentPlaylist.addTrack(track);
 		library.save(currentPlaylist);
 	}
-	
+
 	public Track getTrackFromFile(File file) {
-		return FileManager.getTrackFromFile(file, minim);
+		return FileManager.getTrackFromFile(file);
+	}
+
+	public boolean isPlaying() {
+		if (currentPlayer == null) {
+			return false;
+		}
+		return currentPlayer.isPlaying();
+	}
+	
+	public void skipTo(int millis) {
+		if (currentPlayer != null) {
+			currentPlayer.play(millis);
+		}
+	}
+	
+	public int getPosition() {
+		if (currentPlayer == null) {
+			return 0;
+		}
+		return currentPlayer.position();
 	}
 
 }

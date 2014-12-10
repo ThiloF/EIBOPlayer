@@ -15,24 +15,31 @@ import java.util.regex.Pattern;
 
 import ddf.minim.AudioMetaData;
 import ddf.minim.AudioPlayer;
-import ddf.minim.Minim;
 
 public class FileManager {
 
-	public static Track getTrackFromFile(File file, Minim minim) {
-		
+	public static Track getTrackFromFile(File file) {
+		return getTrackFromFile(file, null);
+	}
+
+	public static Track getTrackFromFile(File file, String title) {
+
 		if (!file.exists() || file.isDirectory()) {
 			return null;
 		}
-		
-		AudioPlayer p = minim.loadFile(file.getPath());
+
+		AudioPlayer p = MusicPlayer.MINIM.loadFile(file.getPath());
 		AudioMetaData meta = p.getMetaData();
 		p.close();
-		
-		return new Track(meta.title(), meta.length(), meta.author(), file);
-		
+
+		if (title == null || title.isEmpty()) {
+			title = meta.title();
+		}
+
+		return new Track(title, meta.length(), meta.author(), file);
+
 	}
-	
+
 	/**
 	 * Diese Methode writePlayList bekommt als Parameter eine Playlist übergeben
 	 * und speichert diese als erweiterte M3U
@@ -78,7 +85,8 @@ public class FileManager {
 	/**
 	 * Diese Methode liest eine .m3u Datei und erzeugt eine Playlist
 	 * 
-	 * @param m3uFile Pfad, ab dem nach M3Us gesucht wird
+	 * @param m3uFile
+	 *            Pfad, ab dem nach M3Us gesucht wird
 	 * @return Playlist, die aus der M3U gelesen wurde
 	 */
 	public static Playlist getPlaylistFromM3U(File m3uFile) {
@@ -86,9 +94,8 @@ public class FileManager {
 		// String tmp;
 
 		boolean isExtM3U = false;
-		Matcher m3uMatcher = Pattern.compile("^#EXTINF:(0*[0-9]{0,9}),(.*?)$").matcher("");
+		Matcher m3uMatcher = Pattern.compile("^#EXTINF:[0-9]*,(.*?)$").matcher("");
 
-		int length = -1;
 		String title = "";
 
 		try (Scanner scanner = new Scanner(m3uFile)) {
@@ -97,16 +104,12 @@ public class FileManager {
 				if (line.matches("^#EXTM3U$"))
 					isExtM3U = true;
 				else if (isExtM3U && m3uMatcher.reset(line).find()) {
-					length = Integer.parseInt(m3uMatcher.group(1));
-					title = m3uMatcher.group(2);
+					title = m3uMatcher.group(1);
 				} else {
 					File trackfile = new File(line);
 					if (trackfile.exists() && !trackfile.isDirectory()) {
-						if (title.isEmpty()) {
-							title = "no title";
-						}
-						tracks.add(new Track(title, length, "Interpret", trackfile));
-						length = -1;
+						System.out.println(title);
+						tracks.add(getTrackFromFile(trackfile, title));
 						title = "";
 					} else {
 						System.err.println("File not found: " + trackfile);
