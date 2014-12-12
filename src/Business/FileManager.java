@@ -18,6 +18,8 @@ import ddf.minim.AudioPlayer;
 
 public class FileManager {
 
+	private static String playlistsPath = "playlists";
+	
 	public static Track getTrackFromFile(File file) {
 		return getTrackFromFile(file, null);
 	}
@@ -47,7 +49,7 @@ public class FileManager {
 	 * @param pl
 	 */
 	public static void writePlaylistToM3U(Playlist pl) {
-		try (PrintWriter write = new PrintWriter(new FileWriter(pl.getTitle() + ".m3u"))) {
+		try (PrintWriter write = new PrintWriter(new FileWriter(playlistsPath + File.separatorChar + pl.getTitle() + ".m3u"))) {
 			ArrayList<Track> tracks = pl.getTracks();
 			write.println("#EXTM3U");
 			for (Track track : tracks) {
@@ -66,9 +68,9 @@ public class FileManager {
 	 * @param p
 	 * @return
 	 */
-	public static ArrayList<File> getM3Us(String p) {
+	public static ArrayList<File> getM3Us() {
 		ArrayList<File> m3uFiles = new ArrayList<File>();
-		Path dirpath = Paths.get(p);
+		Path dirpath = Paths.get(playlistsPath);
 
 		try (DirectoryStream<Path> dirstream = Files.newDirectoryStream(dirpath)) {
 			for (Path path : dirstream) {

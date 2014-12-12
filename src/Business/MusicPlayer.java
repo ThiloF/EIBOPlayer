@@ -7,6 +7,7 @@ import java.util.List;
 import Business.Listeners.PlaylistInsertedListener;
 import Business.Listeners.TrackStartedListener;
 import Business.Listeners.TrackStoppedListener;
+import ddf.minim.AudioListener;
 import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
 
@@ -205,6 +206,10 @@ public class MusicPlayer implements IPlayer {
 			return 0;
 		}
 		return currentPlayer.position();
+	}
+
+	public void removeTrack(int selectedIndex) {
+		library.removeTrackFromPlaylist(currentPlaylist, selectedIndex);
 	}
 
 }

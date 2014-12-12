@@ -62,7 +62,7 @@ public class GuiMenubar extends JMenuBar {
 					if (track != null) {
 						player.getPlaylist().addTrack(track);
 						player.save();
-						guiMain.guiNorth.guiPlaylists.updateTracklist();
+						guiMain.guiTracklist.updateTracklist();
 					}
 				}
 			}

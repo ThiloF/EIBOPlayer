@@ -69,19 +69,7 @@ public class PlayListPanel extends JPanel {
 
 			}
 		});
-
-		chooseTrack.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-				if (e.getKeyChar() == KeyEvent.VK_DELETE) {
-					System.out.println("DELETE!");
-					mp3.getLibrary().removeTrackFromPlaylist(mp3.getPlaylist(), mp3.getTrack());
-					
-					updateTracklist();
-				}
-			}
-		});
-
+		
 		setSize(200, 200);
 		setLayout(new GridLayout(1, 2, 10, 10));
 		add(new JScrollPane(choosePlayList));

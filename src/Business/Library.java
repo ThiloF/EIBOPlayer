@@ -7,7 +7,6 @@ import java.util.List;
 public class Library {
 
 	private List<Playlist> playlists = new ArrayList<Playlist>();
-	private String playlistsPath = "playlists";
 
 	public Library() {
 		load();
@@ -34,7 +33,7 @@ public class Library {
 	 */
 
 	private void load() {
-		ArrayList<File> m3uFiles = FileManager.getM3Us(playlistsPath);
+		ArrayList<File> m3uFiles = FileManager.getM3Us();
 		Playlist pl;
 		for (File f : m3uFiles) {
 			pl = FileManager.getPlaylistFromM3U(f);
@@ -47,11 +46,11 @@ public class Library {
 	}
 
 	public void saveAll() {
-		for(Playlist playlist: playlists) {
+		for (Playlist playlist : playlists) {
 			save(playlist);
 		}
 	}
-	
+
 	public void save(Playlist playlist) {
 		FileManager.writePlaylistToM3U(playlist);
 	}
@@ -71,13 +70,8 @@ public class Library {
 		}
 	}
 
-	public void removeTrackFromPlaylist(Playlist pl, Track track) {
-		for (Track t : pl.list) {
-			if (t.equals(track)) {
-				pl.list.remove(t);
-				return;
-			}
-		}
-
+	public void removeTrackFromPlaylist(Playlist playlist, int index) {
+		playlist.list.remove(index);
+		save(playlist);
 	}
 }
