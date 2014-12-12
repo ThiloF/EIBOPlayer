@@ -7,7 +7,6 @@ import java.util.List;
 import Business.Listeners.PlaylistInsertedListener;
 import Business.Listeners.TrackStartedListener;
 import Business.Listeners.TrackStoppedListener;
-import ddf.minim.AudioListener;
 import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
 
@@ -61,7 +60,6 @@ public class MusicPlayer implements IPlayer {
 
 	public MusicPlayer(Library lib) {
 		library = lib;
-		;
 	}
 
 	public void close() {
@@ -71,22 +69,21 @@ public class MusicPlayer implements IPlayer {
 
 	private void finished() {
 		notifyTrackStoppedListener(false);
-		System.out.println("ended normally");
+		System.out.println("song ended");
 	}
 
 	private void startFinishedChecker() {
 		if (checkFinishedThread != null) {
 			checkFinishedThread.interrupt();
 		}
-		
-		currentPlayer.printControls();
+
 		checkFinishedThread = new Thread(new Runnable() {
 			public void run() {
 				while (!checkFinishedThread.isInterrupted()) {
-					//System.out.println("Length: "+currentPlayer.length());
-					//System.out.println("Pos: "+currentPlayer.position());
-					//System.out.println("Playing: "+currentPlayer.isPlaying());
-					if (currentPlayer != null && currentPlayer.position() >= currentPlayer.length() - 20) {
+					// System.out.println("Length: "+currentPlayer.length());
+					// System.out.println("Pos: "+currentPlayer.position());
+					// System.out.println("Playing: "+currentPlayer.isPlaying());
+					if (currentPlayer != null && currentPlayer.position() >= currentPlayer.length() - 60) {
 						finished();
 						break;
 					}
@@ -118,8 +115,10 @@ public class MusicPlayer implements IPlayer {
 	@Override
 	public void stop() {
 		if (currentPlayer != null) {
+			currentPlayer.pause();
 			currentPlayer.close();
 			notifyTrackStoppedListener(true);
+			checkFinishedThread.interrupt();
 		}
 	}
 
@@ -138,6 +137,7 @@ public class MusicPlayer implements IPlayer {
 	public void selectTrackNumber(int num) {
 		int length = currentPlaylist.getTracks().size();
 		num = (num + length) % length;
+		selectTrack(currentPlaylist.getTrack(num));
 	}
 
 	@Override

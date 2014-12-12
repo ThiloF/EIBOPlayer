@@ -1,6 +1,7 @@
 package GUI2;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -38,6 +39,10 @@ public class GuiTracklist extends JPanel {
 		setBackground(Color.red);
 		
 		tracklist = new JList<String>(tracklistModel);
+		
+		Dimension size = new Dimension(400, 300);
+		tracklist.setMinimumSize(size);
+		tracklist.setPreferredSize(size);
 		
 		tracklist.addListSelectionListener(e -> {
 			if (e.getValueIsAdjusting() || tracklist.getSelectedIndex() < 0) {

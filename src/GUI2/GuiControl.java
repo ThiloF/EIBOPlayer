@@ -27,7 +27,7 @@ public class GuiControl extends JPanel {
 	private JSlider progressSlider;
 
 	private boolean skipped = false;
-	
+
 	public GuiControl(GuiMain guiMain, MusicPlayer player) {
 		this.guiMain = guiMain;
 		this.player = player;
@@ -46,10 +46,10 @@ public class GuiControl extends JPanel {
 		progressSlider.setUI(new CustomSliderUI(progressSlider));
 		progressSlider.setMinimum(0);
 
-		playstop.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
+		playstop.addActionListener(e -> {
+			if (player.isPlaying()) {
+				player.stop();
+			} else {
 				player.play();
 			}
 		});
@@ -58,6 +58,7 @@ public class GuiControl extends JPanel {
 			updateButtonText();
 			setProgressMax(player.getTrack().getLength());
 		});
+		
 		player.addTrackStoppedListener(cancelled -> updateButtonText());
 
 		this.setLayout(new GridLayout(0, 3));
@@ -72,7 +73,7 @@ public class GuiControl extends JPanel {
 			}
 		});
 		progressTimer.start();
-		
+
 		progressSlider.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
@@ -83,7 +84,7 @@ public class GuiControl extends JPanel {
 				if (progressSlider.getValueIsAdjusting()) {
 					return;
 				}
-				System.out.println("Skipping to "+progressSlider.getValue());
+				System.out.println("Skipping to " + progressSlider.getValue());
 				player.cue(progressSlider.getValue());
 			}
 		});
