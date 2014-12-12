@@ -22,39 +22,30 @@ public class GuiPlaylists extends JPanel {
 
 	private GuiMain guiMain;
 	private MusicPlayer player;
-	
+
 	private JList<String> choosePlayList;
 	private DefaultListModel<String> playListTitle;
 	private JPanel contentCenter;
-	
+
 	public GuiPlaylists(GuiMain guiMain, MusicPlayer player) {
 		this.guiMain = guiMain;
 		this.player = player;
 		init();
 	}
-	
+
 	private void init() {
-		
+
 		setBackground(Color.blue);
-		
+
 		playListTitle = new DefaultListModel<String>();
 		fillPlayListTitle();
 		choosePlayList = new JList<String>(playListTitle);
 
-		choosePlayList.addListSelectionListener(new ListSelectionListener() {
-
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				if (e.getValueIsAdjusting()) {
-					return;
-				}
-				// actPlaylist =
-				// playList.get(playListTitle.get(choosePlayList.getSelectedIndex()));
-				player.selectPlaylist(player.getLibrary().getPlaylists().get(choosePlayList.getSelectedIndex()));
-
+		choosePlayList.addListSelectionListener(e -> {
+			if (!e.getValueIsAdjusting()) {
+				player.selectPlaylistNumber(choosePlayList.getSelectedIndex());
 			}
 		});
-
 
 		setSize(200, 200);
 		setLayout(new GridLayout(1, 2, 10, 10));
@@ -74,10 +65,9 @@ public class GuiPlaylists extends JPanel {
 
 	}
 
-
 	public void updatePlayLists() {
 		playListTitle.clear();
 		fillPlayListTitle();
 	}
-	
+
 }

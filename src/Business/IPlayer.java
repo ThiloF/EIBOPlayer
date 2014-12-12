@@ -6,8 +6,6 @@ public interface IPlayer {
 	public void stop();
 	public void skip();
 	public void skipBack();
-	public void selectTrack(Track track);
-	public void selectPlaylist(Playlist playlist);
 	public void cue(int offset);
 	
 	public Playlist getPlaylist();

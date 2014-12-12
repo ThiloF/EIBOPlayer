@@ -134,12 +134,6 @@ public class MusicPlayer implements IPlayer {
 		selectTrackNumber(index - 1);
 	}
 
-	public void selectTrackNumber(int num) {
-		int length = currentPlaylist.getTracks().size();
-		num = (num + length) % length;
-		selectTrack(currentPlaylist.getTrack(num));
-	}
-
 	@Override
 	public Playlist getPlaylist() {
 		return currentPlaylist;
@@ -159,15 +153,25 @@ public class MusicPlayer implements IPlayer {
 		currentPlayer.play();
 	}
 
-	@Override
-	public void selectTrack(Track track) {
+	private void selectTrack(Track track) {
 		currentTrack = track;
 	}
+	
+	public void selectTrackNumber(int num) {
+		int length = currentPlaylist.getTracks().size();
+		num = (num + length) % length;
+		selectTrack(currentPlaylist.getTrack(num));
+	}
 
-	@Override
-	public void selectPlaylist(Playlist playlist) {
+	private void selectPlaylist(Playlist playlist) {
 		currentPlaylist = playlist;
 		notifyPlaylistInsertedListener(playlist);
+	}
+	
+	public void selectPlaylistNumber(int num) {
+		int length = library.getPlaylists().size();
+		num = (num + length) % length;
+		selectPlaylist(library.getPlaylists().get(num));
 	}
 
 	@Override

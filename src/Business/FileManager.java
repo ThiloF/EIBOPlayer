@@ -19,7 +19,11 @@ import ddf.minim.AudioPlayer;
 public class FileManager {
 
 	private static String playlistsPath = "playlists";
-	
+
+	private static String getPathForPlaylist(Playlist playlist) {
+		return playlistsPath + File.separatorChar + playlist.getTitle() + ".m3u";
+	}
+
 	public static Track getTrackFromFile(File file) {
 		return getTrackFromFile(file, null);
 	}
@@ -46,11 +50,11 @@ public class FileManager {
 	 * Diese Methode writePlayList bekommt als Parameter eine Playlist übergeben
 	 * und speichert diese als erweiterte M3U
 	 * 
-	 * @param pl
+	 * @param playlist
 	 */
-	public static void writePlaylistToM3U(Playlist pl) {
-		try (PrintWriter write = new PrintWriter(new FileWriter(playlistsPath + File.separatorChar + pl.getTitle() + ".m3u"))) {
-			ArrayList<Track> tracks = pl.getTracks();
+	public static void writePlaylistToM3U(Playlist playlist) {
+		try (PrintWriter write = new PrintWriter(new FileWriter(getPathForPlaylist(playlist)))) {
+			ArrayList<Track> tracks = playlist.getTracks();
 			write.println("#EXTM3U");
 			for (Track track : tracks) {
 				write.println("#EXTINF:" + track.getLength() + "," + track.getBand() + "-" + track.getTitle());
@@ -151,6 +155,13 @@ public class FileManager {
 			}
 		}
 		return mp3list;
+	}
+
+	public static void deletePlaylist(Playlist playlist) {
+		File file = new File(getPathForPlaylist(playlist));
+		if (!file.delete()) {
+			System.err.println("Could not delete playlist: " + playlist.getTitle());
+		}
 	}
 
 }
