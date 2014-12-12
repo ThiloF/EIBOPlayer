@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Business.Listeners.PlaylistInsertedListener;
+import Business.Listeners.TrackPausedListener;
 import Business.Listeners.TrackStartedListener;
 import Business.Listeners.TrackStoppedListener;
 import ddf.minim.AudioPlayer;
@@ -18,6 +19,7 @@ public class MusicPlayer implements IPlayer {
 
 	private List<TrackStartedListener> trackStartedListeners = new ArrayList<>();
 	private List<TrackStoppedListener> trackStoppedListeners = new ArrayList<>();
+	private List<TrackPausedListener> trackPausedListeners = new ArrayList<>();
 	private List<PlaylistInsertedListener> playlistInsertedListeners = new ArrayList<>();
 
 	public void addTrackStartedListener(TrackStartedListener listener) {
@@ -26,6 +28,10 @@ public class MusicPlayer implements IPlayer {
 
 	public void addTrackStoppedListener(TrackStoppedListener listener) {
 		trackStoppedListeners.add(listener);
+	}
+	
+	public void addTrackPausedListener(TrackPausedListener listener) {
+		trackPausedListeners.add(listener);
 	}
 
 	public void addPlaylistInsertedListener(PlaylistInsertedListener listener) {
@@ -38,6 +44,10 @@ public class MusicPlayer implements IPlayer {
 
 	public void notifyTrackStoppedListener(boolean cancelled) {
 		trackStoppedListeners.forEach(l -> l.trackStopped(cancelled));
+	}
+	
+	public void notifyTrackPausedListener() {
+		trackPausedListeners.forEach(l -> l.trackPaused());
 	}
 
 	public void notifyPlaylistInsertedListener(Playlist playlist) {
@@ -57,6 +67,7 @@ public class MusicPlayer implements IPlayer {
 	private AudioPlayer currentPlayer = null;
 
 	private Thread checkFinishedThread;
+	private boolean paused = false;
 
 	public MusicPlayer(Library lib) {
 		library = lib;
@@ -102,12 +113,17 @@ public class MusicPlayer implements IPlayer {
 
 	@Override
 	public void play() {
-		stop();
 		if (currentTrack == null) {
 			return;
 		}
-		currentPlayer = MINIM.loadFile(currentTrack.getSoundFile().getPath());
+		if (currentPlayer == null || currentPlayer.isPlaying()) {
+			stop();
+		}
+		if (currentPlayer == null || (!currentPlayer.isPlaying() && !paused)) {
+			currentPlayer = MINIM.loadFile(currentTrack.getSoundFile().getPath());			
+		}
 		currentPlayer.play();
+		paused = false;
 		startFinishedChecker();
 		notifyTrackStartedListener();
 	}
@@ -119,6 +135,7 @@ public class MusicPlayer implements IPlayer {
 			currentPlayer.close();
 			notifyTrackStoppedListener(true);
 			checkFinishedThread.interrupt();
+			paused = false;
 		}
 	}
 
@@ -145,12 +162,11 @@ public class MusicPlayer implements IPlayer {
 
 	@Override
 	public void pause() {
-		currentPlayer.pause();
-	}
-
-	@Override
-	public void unpause() {
-		currentPlayer.play();
+		if (!paused) {
+			currentPlayer.pause();
+			paused = true;
+			notifyTrackPausedListener();
+		}
 	}
 
 	private void selectTrack(Track track) {

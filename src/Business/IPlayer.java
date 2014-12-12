@@ -12,7 +12,6 @@ public interface IPlayer {
 	public Track getTrack();
 	
 	public void pause();
-	public void unpause();
 	
 	public void close();
 	

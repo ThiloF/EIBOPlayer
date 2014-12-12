@@ -21,9 +21,7 @@ public class GuiControl extends JPanel {
 	private GuiMain guiMain;
 	private MusicPlayer player;
 
-	private JButton playstop;
-	private JButton skip;
-	private JButton skipback;
+	private JButton playpause, stop, skip, skipback;
 	private JSlider progressSlider;
 
 	private boolean skipped = false;
@@ -38,7 +36,8 @@ public class GuiControl extends JPanel {
 
 		setBackground(Color.yellow);
 
-		playstop = new JButton();
+		playpause = new JButton();
+		stop = new JButton("stop");
 		skip = new JButton(">>");
 		skipback = new JButton("<<");
 
@@ -46,13 +45,15 @@ public class GuiControl extends JPanel {
 		progressSlider.setUI(new CustomSliderUI(progressSlider));
 		progressSlider.setMinimum(0);
 
-		playstop.addActionListener(e -> {
+		playpause.addActionListener(e -> {
 			if (player.isPlaying()) {
-				player.stop();
+				player.pause();
 			} else {
 				player.play();
 			}
 		});
+		
+		stop.addActionListener(e -> player.stop());
 
 		player.addTrackStartedListener(() -> {
 			updateButtonText();
@@ -60,10 +61,12 @@ public class GuiControl extends JPanel {
 		});
 		
 		player.addTrackStoppedListener(cancelled -> updateButtonText());
+		player.addTrackPausedListener(() -> updateButtonText());
 
 		this.setLayout(new GridLayout(0, 3));
 		this.add(skipback);
-		this.add(playstop);
+		this.add(playpause);
+		this.add(stop);
 		this.add(skip);
 		this.add(progressSlider);
 
@@ -103,10 +106,11 @@ public class GuiControl extends JPanel {
 	}
 
 	private void updateButtonText() {
+		System.out.println("update");
 		if (player.isPlaying()) {
-			playstop.setText("Stop");
+			playpause.setText("Pause");
 		} else {
-			playstop.setText("Play");
+			playpause.setText("Play");
 		}
 	}
 
