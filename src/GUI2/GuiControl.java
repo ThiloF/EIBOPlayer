@@ -26,6 +26,8 @@ public class GuiControl extends JPanel {
 	private JButton skipback;
 	private JSlider progressSlider;
 
+	private boolean skipped = false;
+	
 	public GuiControl(GuiMain guiMain, MusicPlayer player) {
 		this.guiMain = guiMain;
 		this.player = player;
@@ -65,17 +67,24 @@ public class GuiControl extends JPanel {
 		this.add(progressSlider);
 
 		Timer progressTimer = new Timer(200, e -> {
-			updateProgress(player.getPosition());
+			if (!progressSlider.getValueIsAdjusting()) {
+				updateProgress(player.getPosition());
+			}
 		});
 		progressTimer.start();
 		
 		progressSlider.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
+				if (skipped) {
+					skipped = false;
+					return;
+				}
 				if (progressSlider.getValueIsAdjusting()) {
 					return;
 				}
-				player.skipTo(progressSlider.getValue());
+				System.out.println("Skipping to "+progressSlider.getValue());
+				player.cue(progressSlider.getValue());
 			}
 		});
 
@@ -83,13 +92,12 @@ public class GuiControl extends JPanel {
 	}
 
 	private void setProgressMax(int millis) {
-		progressSlider.setValueIsAdjusting(true);
+		skipped = true;
 		progressSlider.setMaximum(millis);
 	}
 
 	private void updateProgress(int millis) {
-		progressSlider.setValueIsAdjusting(true);
-		System.out.println("Progress " + millis);
+		skipped = true;
 		progressSlider.setValue(millis);
 	}
 

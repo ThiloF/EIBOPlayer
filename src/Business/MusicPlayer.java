@@ -77,10 +77,15 @@ public class MusicPlayer implements IPlayer {
 		if (checkFinishedThread != null) {
 			checkFinishedThread.interrupt();
 		}
+		
+		currentPlayer.printControls();
 		checkFinishedThread = new Thread(new Runnable() {
 			public void run() {
 				while (!checkFinishedThread.isInterrupted()) {
-					if (currentPlayer != null && !currentPlayer.isPlaying()) {
+					//System.out.println("Length: "+currentPlayer.length());
+					//System.out.println("Pos: "+currentPlayer.position());
+					//System.out.println("Playing: "+currentPlayer.isPlaying());
+					if (currentPlayer != null && currentPlayer.position() >= currentPlayer.length() - 20) {
 						finished();
 						break;
 					}
@@ -188,13 +193,13 @@ public class MusicPlayer implements IPlayer {
 		}
 		return currentPlayer.isPlaying();
 	}
-	
-	public void skipTo(int millis) {
+
+	public void cue(int millis) {
 		if (currentPlayer != null) {
-			currentPlayer.play(millis);
+			currentPlayer.cue(millis);
 		}
 	}
-	
+
 	public int getPosition() {
 		if (currentPlayer == null) {
 			return 0;
