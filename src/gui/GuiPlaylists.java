@@ -34,40 +34,38 @@ public class GuiPlaylists extends JPanel {
 
 		playlistPanel = new JPanel();
 		playlistPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		// Dimension size = new Dimension(1000,160);
 
 		playlistScrollPane = new JScrollPane(playlistPanel);
 		playlistScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
 		playlistScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		// list.setMinimumSize(size);
-		// list.setPreferredSize(size);
 		add(playlistScrollPane);
 
 		updatePlaylists();
 
 		player.addPlaylistInsertedListener(playlist -> updatePlaylists());
+		player.addPlaylistChangedListener(() -> updatePlaylists());
 
 	}
 
 	/**
-	 * Laed die Playlisten in das dafuer zuständige Listmodel (PlaylistTitle).
-	 * 
+	 * Baut das Panel, welches die Playlists beinhaltet, neu auf
 	 */
-
 	public void updatePlaylists() {
-		System.out.println("updating");
+		System.out.println("updating playlist");
 		playlistPanel.removeAll();
-		for (Playlist playlist : player.getLibrary().getPlaylists()) {
-			final JButton pButton = new JButton();
-			pButton.setIcon(new ImageIcon(playlist.getCoverImage()));
-			pButton.setText(playlist.getTitle());
-			pButton.addActionListener(e -> player.selectPlaylist(playlist));
-			pButton.setHorizontalTextPosition(JButton.CENTER);
-			pButton.setVerticalTextPosition(JButton.BOTTOM);
+		for (final Playlist playlist : player.getPlaylists()) {
+
+			final JButton playlistButton = new JButton();
+			playlistButton.setIcon(new ImageIcon(playlist.getCoverImage()));
+			playlistButton.setText(playlist.getTitle());
+			playlistButton.addActionListener(e -> player.selectPlaylist(playlist));
+			playlistButton.setHorizontalTextPosition(JButton.CENTER);
+			playlistButton.setVerticalTextPosition(JButton.BOTTOM);
+
 			if (player.getPlaylist() == playlist) {
-				pButton.setBackground(Color.GREEN);
+				playlistButton.setBackground(Color.GREEN);
 			}
-			playlistPanel.add(pButton);
+			playlistPanel.add(playlistButton);
 		}
 	}
 

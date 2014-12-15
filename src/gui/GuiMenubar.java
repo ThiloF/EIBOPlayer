@@ -58,9 +58,7 @@ public class GuiMenubar extends JMenuBar {
 
 					Track track = player.getTrackFromFile(f);
 					if (track != null) {
-						player.getPlaylist().addTrack(track);
-						player.save();
-						guiMain.guiTracklist.updateTracklist();
+						player.addTrackToPlaylist(track);
 					}
 				}
 			}

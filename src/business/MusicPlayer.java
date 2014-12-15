@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import business.listeners.PlaylistChangedListener;
 import business.listeners.PlaylistInsertedListener;
 import business.listeners.TrackPausedListener;
 import business.listeners.TrackStartedListener;
@@ -11,7 +12,7 @@ import business.listeners.TrackStoppedListener;
 import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
 
-public class MusicPlayer implements IPlayer {
+public class MusicPlayer {
 
 	/*
 	 * LISTENERS START
@@ -21,6 +22,7 @@ public class MusicPlayer implements IPlayer {
 	private List<TrackStoppedListener> trackStoppedListeners = new ArrayList<>();
 	private List<TrackPausedListener> trackPausedListeners = new ArrayList<>();
 	private List<PlaylistInsertedListener> playlistInsertedListeners = new ArrayList<>();
+	private List<PlaylistChangedListener> playlistChangedListeners = new ArrayList<>();
 
 	public void addTrackStartedListener(TrackStartedListener listener) {
 		trackStartedListeners.add(listener);
@@ -37,23 +39,31 @@ public class MusicPlayer implements IPlayer {
 	public void addPlaylistInsertedListener(PlaylistInsertedListener listener) {
 		playlistInsertedListeners.add(listener);
 	}
+	
+	public void addPlaylistChangedListener(PlaylistChangedListener listener) {
+		playlistChangedListeners.add(listener);
+	}
 
-	public void notifyTrackStartedListener() {
+	private void notifyTrackStartedListener() {
 		trackStartedListeners.forEach(l -> l.trackStarted());
 	}
 
-	public void notifyTrackStoppedListener(boolean cancelled) {
+	private void notifyTrackStoppedListener(boolean cancelled) {
 		trackStoppedListeners.forEach(l -> l.trackStopped(cancelled));
 	}
 	
-	public void notifyTrackPausedListener() {
+	private void notifyTrackPausedListener() {
 		trackPausedListeners.forEach(l -> l.trackPaused());
 	}
 
-	public void notifyPlaylistInsertedListener(Playlist playlist) {
+	private void notifyPlaylistInsertedListener(Playlist playlist) {
 		playlistInsertedListeners.forEach(l -> l.playlistInserted(playlist));
 	}
 
+	private void notifyPlaylistChangedListener() {
+		playlistChangedListeners.forEach(l -> l.playlistChanged());
+	}
+	
 	/*
 	 * LISTENERS END
 	 */
@@ -84,6 +94,13 @@ public class MusicPlayer implements IPlayer {
 		System.out.println("song ended");
 	}
 
+	/**
+	 * Diese Funktion ist ein furchtbarer Hack.
+	 * Mimim ist toll, um Sachen abzuspielen, aber es kann einem nicht mitteilen,
+	 * wann ein Lied vorbei ist. Noch schlimmer: Nachdem ein Lied bis zum Ende gelaufen ist,
+	 * bleibt es zwischen 1 und so 60 ms vor dem Ende händen und setzt isPlaying nie auf false.
+	 * Dies ist die beste Lösung, die ich hingekriegt habe, um beim Liedende ein Event auszulösen...
+	 */
 	private void startFinishedChecker() {
 		if (checkFinishedThread != null) {
 			checkFinishedThread.interrupt();
@@ -112,7 +129,9 @@ public class MusicPlayer implements IPlayer {
 		checkFinishedThread.start();
 	}
 
-	@Override
+	/**
+	 * Spielt den aktuellen Track ab. Falls pausiert, geht es an entsprechender Stelle weiter.
+	 */
 	public void play() {
 		if (currentTrack == null) {
 			return;
@@ -129,9 +148,12 @@ public class MusicPlayer implements IPlayer {
 		notifyTrackStartedListener();
 	}
 
-	@Override
+	/**
+	 * Stoppt den aktuellen Track
+	 */
 	public void stop() {
 		if (currentPlayer != null) {
+			// Da Minim's isPlaying selbst nach close() weiterhin auf true steht, wird zuerst pausiert.
 			currentPlayer.pause();
 			currentPlayer.close();
 			notifyTrackStoppedListener(true);
@@ -140,30 +162,41 @@ public class MusicPlayer implements IPlayer {
 		}
 	}
 
-	@Override
+	/**
+	 * Stoppt den aktuellen Track und spielt den nächsten in der Liste ab
+	 */
 	public void skip() {
 		int index = currentPlaylist.getTracks().indexOf(currentTrack);
 		selectTrackNumber(index + 1);
 		play();
 	}
 
-	@Override
+	/**
+	 * Stoppt den aktuellen Track und spielt den vorherigen in der Liste ab
+	 */
 	public void skipBack() {
 		int index = currentPlaylist.getTracks().indexOf(currentTrack);
 		selectTrackNumber(index - 1);
 		play();
 	}
 
-	@Override
+	/**
+	 * @return aktuell ausgewählte Playlist
+	 */
 	public Playlist getPlaylist() {
 		return currentPlaylist;
 	}
-
-	public Library getLibrary() {
-		return library;
+	
+	/**
+	 * @return Liste der geladenen Playlists
+	 */
+	public List<Playlist> getPlaylists() {
+		return library.getPlaylists();
 	}
 
-	@Override
+	/**
+	 * Pausiert die Wiedergabe. Kann mit play() fortgesetzt werden.
+	 */
 	public void pause() {
 		if (!paused) {
 			currentPlayer.pause();
@@ -172,45 +205,79 @@ public class MusicPlayer implements IPlayer {
 		}
 	}
 
+	/**
+	 * Wählt einen neuen Track aus.
+	 * @param track der neue Track
+	 */
 	public void selectTrack(Track track) {
 		currentTrack = track;
 	}
 	
+	/**
+	 * Wählt einen neuen Track anhand der Nummerierung aus.
+	 * @param num Track-Nummer
+	 */
 	public void selectTrackNumber(int num) {
 		int length = currentPlaylist.getTracks().size();
 		num = (num + length) % length;
 		selectTrack(currentPlaylist.getTrack(num));
 	}
 
+	/**
+	 * Wählt eine neue Playlist aus
+	 * @param playlist neue Playlist
+	 */
 	public void selectPlaylist(Playlist playlist) {
 		currentPlaylist = playlist;
 		notifyPlaylistInsertedListener(playlist);
 	}
 	
+	/**
+	 * Wählt eine neue Playlist anhand der Nummerierung aus
+	 * @param num Playlist-Nummer
+	 */
 	public void selectPlaylistNumber(int num) {
 		int length = library.getPlaylists().size();
 		num = (num + length) % length;
 		selectPlaylist(library.getPlaylists().get(num));
 	}
 
-	@Override
+	/**
+	 * @return aktuell ausgewählter Track
+	 */
 	public Track getTrack() {
 		return currentTrack;
 	}
 
+	/**
+	 * forciert, dass die aktuelle Playlist gespeichert wird
+	 */
 	public void save() {
 		library.save(currentPlaylist);
 	}
 
+	/**
+	 * Fügt der aktuell ausgewählten Playlist einen Track hinzu
+	 * @param track hinzuzufügender Track
+	 */
 	public void addTrackToPlaylist(Track track) {
 		currentPlaylist.addTrack(track);
+		notifyPlaylistChangedListener();
 		library.save(currentPlaylist);
 	}
 
+	/**
+	 * Gibt an FileManager's Funktion weiter, welche eine Datei zu einem Track-Objekt umarbeitet
+	 * @param file Musikdatei
+	 * @return erstelltes Track-Objekt
+	 */
 	public Track getTrackFromFile(File file) {
 		return FileManager.getTrackFromFile(file);
 	}
 
+	/**
+	 * @return true, wenn ein Track gerade abgespielt wird
+	 */
 	public boolean isPlaying() {
 		if (currentPlayer == null) {
 			return false;
@@ -218,12 +285,18 @@ public class MusicPlayer implements IPlayer {
 		return currentPlayer.isPlaying();
 	}
 
+	/**
+	 * Springt im aktuell ausgewählten Track an eine bestimmte Stelle
+	 */
 	public void cue(int millis) {
 		if (currentPlayer != null) {
 			currentPlayer.cue(millis);
 		}
 	}
 
+	/**
+	 * @return Stelle, an der sich der momentane Track befindet
+	 */
 	public int getPosition() {
 		if (currentPlayer == null) {
 			return 0;
@@ -231,10 +304,17 @@ public class MusicPlayer implements IPlayer {
 		return currentPlayer.position();
 	}
 
-	public void removeTrack(int selectedIndex) {
-		library.removeTrackFromPlaylist(currentPlaylist, selectedIndex);
+	/**
+	 * Entfernt einen Track aus der aktuellen Playlist anhand der Nummerierung
+	 * @param index Track-Nummer
+	 */
+	public void removeTrack(int index) {
+		library.removeTrackFromPlaylist(currentPlaylist, index);
 	}
 
+	/**
+	 * @return Nummer des Tracks, der gerade abgespielt wird
+	 */
 	public int getTrackNumber() {
 		for (int i = 0; i < currentPlaylist.numberOfTracks(); i++) {
 			if (currentPlaylist.getTrack(i) == currentTrack) {
@@ -242,6 +322,16 @@ public class MusicPlayer implements IPlayer {
 			}
 		}
 		return -1;
+	}
+
+	/**
+	 * Fügt eine neue Playlist hinzu
+	 * @param playlist neue Playlist
+	 */
+	public void addPlaylist(Playlist playlist) {
+		library.add(playlist);
+		FileManager.writePlaylistToM3U(playlist);
+		notifyPlaylistChangedListener();
 	}
 
 }

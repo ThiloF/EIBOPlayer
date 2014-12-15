@@ -1,17 +1,12 @@
 package gui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.ListModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import business.MusicPlayer;
 import business.Playlist;
@@ -59,6 +54,7 @@ public class GuiTracklist extends JPanel {
 		});
 		
 		player.addPlaylistInsertedListener(p -> updateTracklist(p));
+		player.addPlaylistChangedListener(() -> updateTracklist());
 		player.addTrackStartedListener(() -> tracklist.setSelectedIndex(player.getTrackNumber()));
 		
 		add(tracklist);

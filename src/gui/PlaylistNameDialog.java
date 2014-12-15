@@ -20,30 +20,24 @@ import business.Track;
 public class PlaylistNameDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private GuiMain guiMain;
 	private MusicPlayer player;
 
 	private JTextField name;
 	private JButton speichern;
-	
-	public PlaylistNameDialog(GuiMain guiMain, MusicPlayer player){
+
+	public PlaylistNameDialog(GuiMain guiMain, MusicPlayer player) {
 		this.player = player;
 		name = new JTextField();
 		speichern = new JButton("speichern");
 		this.guiMain = guiMain;
-		
-		speichern.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				createNewPlayList();
-				dispose();
-			
-			}
+
+		speichern.addActionListener(e -> {
+			createNewPlayList();
+			dispose();
 		});
-		
+
 		this.setTitle("Titel der Playlist eingeben");
 		this.setSize(new Dimension(300, 100));
 		this.setModal(true);
@@ -51,21 +45,16 @@ public class PlaylistNameDialog extends JDialog {
 		this.add(new JLabel("Bitte geben Sie den Titel der PLaylist ein"));
 		this.add(name);
 		this.add(speichern);
-		
-		
+
 		this.setVisible(true);
 	}
-	
-	private void createNewPlayList(){
-		
-		Library library = player.getLibrary();
+
+	private void createNewPlayList() {
+
 		String listname = name.getText();
-		Playlist pl = new Playlist(listname, new ArrayList<Track>());
-		library.add(pl);
-		guiMain.guiNorth.guiPlaylists.updatePlaylists();
-		FileManager.writePlaylistToM3U(pl);
-		
-		
+		Playlist playlist = new Playlist(listname, new ArrayList<Track>());
+		player.addPlaylist(playlist);
+
 	}
-	
+
 }
