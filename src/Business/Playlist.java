@@ -1,16 +1,34 @@
 package Business;
 
+import java.awt.Image;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 public class Playlist {
 	private String title;
-	private File coverFile;
+	private Image coverImage;
 	ArrayList<Track> list = new ArrayList<Track>();
 
-	public Playlist(String title, File coverFile, ArrayList<Track> tracks) {
+	public static Image DEFAULT_COVERIMAGE;
+	static {
+		try {
+			DEFAULT_COVERIMAGE = ImageIO.read(new File("defaultcover.png"));
+		} catch (IOException e) {
+			System.err.println("The default coverimage is missing! Oh no!");
+			e.printStackTrace();
+		}
+	}
+
+	public Playlist(String title, Image coverImage, ArrayList<Track> tracks) {
 		this.title = title;
-		this.coverFile = coverFile;
+		if (coverImage == null) {
+			this.coverImage = DEFAULT_COVERIMAGE;
+		} else {
+			this.coverImage = coverImage;
+		}
 		this.list = tracks;
 	}
 
@@ -48,8 +66,13 @@ public class Playlist {
 	}
 
 	public Track getTrack(int no) {
-		if (no < 0 || no >= list.size()) return null;
+		if (no < 0 || no >= list.size())
+			return null;
 		return list.get(no);
+	}
+	
+	public Image getCoverImage() {
+		return coverImage;
 	}
 
 	public void printList() {

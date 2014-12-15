@@ -62,7 +62,7 @@ public class PlaylistNameDialog extends JDialog {
 		String listname = name.getText();
 		Playlist pl = new Playlist(listname, new ArrayList<Track>());
 		library.add(pl);
-		guiMain.guiNorth.guiPlaylists.updatePlayLists();
+		guiMain.guiNorth.guiPlaylists.updatePlaylists();
 		FileManager.writePlaylistToM3U(pl);
 		
 		

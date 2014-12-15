@@ -1,20 +1,16 @@
 package GUI2;
 
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
-import javax.swing.DefaultListModel;
-import javax.swing.JList;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import Business.MusicPlayer;
 import Business.Playlist;
-import Business.Track;
 
 public class GuiPlaylists extends JPanel {
 
@@ -23,9 +19,8 @@ public class GuiPlaylists extends JPanel {
 	private GuiMain guiMain;
 	private MusicPlayer player;
 
-	private JList<String> choosePlayList;
-	private DefaultListModel<String> playListTitle;
-	private JPanel contentCenter;
+	private JScrollPane playlistScrollPane;
+	private JPanel playlistPanel;
 
 	public GuiPlaylists(GuiMain guiMain, MusicPlayer player) {
 		this.guiMain = guiMain;
@@ -35,21 +30,24 @@ public class GuiPlaylists extends JPanel {
 
 	private void init() {
 
+		setLayout(new GridLayout(1, 1));
 		setBackground(Color.blue);
 
-		playListTitle = new DefaultListModel<String>();
-		fillPlayListTitle();
-		choosePlayList = new JList<String>(playListTitle);
+		playlistPanel = new JPanel();
+		playlistPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		// Dimension size = new Dimension(1000,160);
 
-		choosePlayList.addListSelectionListener(e -> {
-			if (!e.getValueIsAdjusting()) {
-				player.selectPlaylistNumber(choosePlayList.getSelectedIndex());
-			}
-		});
+		playlistScrollPane = new JScrollPane(playlistPanel);
+		playlistScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+		playlistScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		// list.setMinimumSize(size);
+		// list.setPreferredSize(size);
+		add(playlistScrollPane);
 
-		setSize(200, 200);
-		setLayout(new GridLayout(1, 2, 10, 10));
-		add(new JScrollPane(choosePlayList));
+		updatePlaylists();
+
+		player.addPlaylistInsertedListener(playlist -> updatePlaylists());
+
 	}
 
 	/**
@@ -57,17 +55,21 @@ public class GuiPlaylists extends JPanel {
 	 * 
 	 */
 
-	private void fillPlayListTitle() {
-
-		for (Playlist pl : player.getLibrary().getPlaylists()) {
-			playListTitle.addElement(pl.getTitle());
+	public void updatePlaylists() {
+		System.out.println("updating");
+		playlistPanel.removeAll();
+		for (Playlist playlist : player.getLibrary().getPlaylists()) {
+			final JButton pButton = new JButton();
+			pButton.setIcon(new ImageIcon(playlist.getCoverImage()));
+			pButton.setText(playlist.getTitle());
+			pButton.addActionListener(e -> player.selectPlaylist(playlist));
+			pButton.setHorizontalTextPosition(JButton.CENTER);
+			pButton.setVerticalTextPosition(JButton.BOTTOM);
+			if (player.getPlaylist() == playlist) {
+				pButton.setBackground(Color.RED);
+			}
+			playlistPanel.add(pButton);
 		}
-
-	}
-
-	public void updatePlayLists() {
-		playListTitle.clear();
-		fillPlayListTitle();
 	}
 
 }

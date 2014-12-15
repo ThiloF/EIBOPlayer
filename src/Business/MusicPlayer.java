@@ -169,7 +169,7 @@ public class MusicPlayer implements IPlayer {
 		}
 	}
 
-	private void selectTrack(Track track) {
+	public void selectTrack(Track track) {
 		currentTrack = track;
 	}
 	
@@ -179,7 +179,7 @@ public class MusicPlayer implements IPlayer {
 		selectTrack(currentPlaylist.getTrack(num));
 	}
 
-	private void selectPlaylist(Playlist playlist) {
+	public void selectPlaylist(Playlist playlist) {
 		currentPlaylist = playlist;
 		notifyPlaylistInsertedListener(playlist);
 	}
