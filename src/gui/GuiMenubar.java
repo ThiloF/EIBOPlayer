@@ -1,4 +1,4 @@
-package GUI2;
+package gui;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -8,8 +8,8 @@ import javax.swing.AbstractAction;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 
-import Business.MusicPlayer;
-import Business.Track;
+import business.MusicPlayer;
+import business.Track;
 
 public class GuiMenubar extends JMenuBar {
 
@@ -28,8 +28,6 @@ public class GuiMenubar extends JMenuBar {
 
 	private void init() {
 
-		setBackground(Color.GREEN);
-		
 		JMenu fileMenu = new JMenu("Datei");
 		JMenu playlistMenu = new JMenu("Playlist");
 		JMenu computerSaysNo = new JMenu("?");

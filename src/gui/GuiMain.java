@@ -1,4 +1,4 @@
-package GUI2;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import Business.MusicPlayer;
+import business.MusicPlayer;
 
 public class GuiMain {
 
@@ -28,8 +28,8 @@ public class GuiMain {
 	public void init() {
 		
 		try {
-			//UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			//UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e1) {
 			e1.printStackTrace();
 		}

@@ -1,6 +1,6 @@
-package Business.Listeners;
+package business.listeners;
 
-import Business.Playlist;
+import business.Playlist;
 
 public interface PlaylistInsertedListener {
 

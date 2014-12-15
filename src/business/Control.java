@@ -1,5 +1,5 @@
-package Business;
-import GUI2.GuiMain;
+package business;
+import gui.GuiMain;
 
 public class Control {
 

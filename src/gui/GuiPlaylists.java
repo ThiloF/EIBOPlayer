@@ -1,4 +1,4 @@
-package GUI2;
+package gui;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -9,8 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import Business.MusicPlayer;
-import Business.Playlist;
+import business.MusicPlayer;
+import business.Playlist;
 
 public class GuiPlaylists extends JPanel {
 
@@ -31,7 +31,6 @@ public class GuiPlaylists extends JPanel {
 	private void init() {
 
 		setLayout(new GridLayout(1, 1));
-		setBackground(Color.blue);
 
 		playlistPanel = new JPanel();
 		playlistPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -66,7 +65,7 @@ public class GuiPlaylists extends JPanel {
 			pButton.setHorizontalTextPosition(JButton.CENTER);
 			pButton.setVerticalTextPosition(JButton.BOTTOM);
 			if (player.getPlaylist() == playlist) {
-				pButton.setBackground(Color.RED);
+				pButton.setBackground(Color.GREEN);
 			}
 			playlistPanel.add(pButton);
 		}

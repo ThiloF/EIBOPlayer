@@ -1,13 +1,13 @@
-package Business;
+package business;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import Business.Listeners.PlaylistInsertedListener;
-import Business.Listeners.TrackPausedListener;
-import Business.Listeners.TrackStartedListener;
-import Business.Listeners.TrackStoppedListener;
+import business.listeners.PlaylistInsertedListener;
+import business.listeners.TrackPausedListener;
+import business.listeners.TrackStartedListener;
+import business.listeners.TrackStoppedListener;
 import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
 

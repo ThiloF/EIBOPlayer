@@ -1,10 +1,11 @@
-package GUI2;
+package gui;
 
-import java.awt.Color;
+import java.awt.GridLayout;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import Business.MusicPlayer;
+import business.MusicPlayer;
 
 public class GuiTrackinfo extends JPanel {
 
@@ -20,7 +21,16 @@ public class GuiTrackinfo extends JPanel {
 	}
 	
 	private void init() {
-		setBackground(Color.cyan);
+		
+		setLayout(new GridLayout(2, 0));
+		
+		player.addTrackStartedListener(() -> reload());
+		
+	}
+	
+	private void reload() {
+		removeAll();
+		add(new JLabel(player.getTrack().getTitle()));
 	}
 	
 }

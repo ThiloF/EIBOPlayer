@@ -1,4 +1,4 @@
-package Business;
+package business;
 
 import java.io.File;
 
@@ -6,19 +6,14 @@ public class Track {
 	private String title;
 	private int length;
 	private String albumTitle;
-	private String band;
+	private String interpret;
 	private File soundFile;
 
-	public Track(String title, int length, String albumTitle, String band, File soundFile) {
+	public Track(String title, int length, String interpret, File soundFile) {
 		this.title = title;
 		this.length = length;
-		this.albumTitle = albumTitle;
-		this.band = band;
+		this.interpret = interpret;
 		this.soundFile = soundFile;
-	}
-	
-	public Track(String title, int length, String interpret, File path){
-		this(title, length, "null",interpret, path);
 	}
 
 	public String getTitle() {
@@ -46,11 +41,11 @@ public class Track {
 	}
 
 	public String getBand() {
-		return band;
+		return interpret;
 	}
 
 	public void setBand(String band) {
-		this.band = band;
+		this.interpret = band;
 	}
 
 	public File getSoundFile() {

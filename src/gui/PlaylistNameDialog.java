@@ -1,4 +1,4 @@
-package GUI2;
+package gui;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -11,11 +11,11 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import Business.FileManager;
-import Business.Library;
-import Business.MusicPlayer;
-import Business.Playlist;
-import Business.Track;
+import business.FileManager;
+import business.Library;
+import business.MusicPlayer;
+import business.Playlist;
+import business.Track;
 
 public class PlaylistNameDialog extends JDialog {
 

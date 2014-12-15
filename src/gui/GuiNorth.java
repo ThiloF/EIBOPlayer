@@ -1,10 +1,10 @@
-package GUI2;
+package gui;
 
 import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 
-import Business.MusicPlayer;
+import business.MusicPlayer;
 
 public class GuiNorth extends JPanel {
 

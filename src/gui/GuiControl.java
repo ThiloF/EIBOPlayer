@@ -1,6 +1,5 @@
-package GUI2;
+package gui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
@@ -9,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.Timer;
 
-import Business.MusicPlayer;
+import business.MusicPlayer;
 
 public class GuiControl extends JPanel {
 
@@ -30,8 +29,6 @@ public class GuiControl extends JPanel {
 	}
 
 	private void init() {
-
-		setBackground(Color.yellow);
 
 		playpause = new JButton();
 		stop = new JButton("■");

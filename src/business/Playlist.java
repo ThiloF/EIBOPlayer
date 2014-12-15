@@ -1,4 +1,4 @@
-package Business;
+package business;
 
 import java.awt.Image;
 import java.io.File;

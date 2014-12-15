@@ -1,4 +1,4 @@
-package GUI2;
+package gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,9 +13,9 @@ import javax.swing.ListModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import Business.MusicPlayer;
-import Business.Playlist;
-import Business.Track;
+import business.MusicPlayer;
+import business.Playlist;
+import business.Track;
 
 public class GuiTracklist extends JPanel {
 
@@ -34,7 +34,6 @@ public class GuiTracklist extends JPanel {
 	}
 	
 	private void init() {
-		setBackground(Color.red);
 		
 		tracklist = new JList<String>(tracklistModel);
 		
