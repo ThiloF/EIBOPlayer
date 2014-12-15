@@ -40,33 +40,37 @@ public class GuiPlaylists extends JPanel {
 		playlistScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		add(playlistScrollPane);
 
-		updatePlaylists();
-
+		// FIXME Sobald dieser Listener hinzugefügt wird, schmiert die Playlist-GUI
+		// irgendwie ab, sobald man leere Playlists auswählt...
 		player.addPlaylistInsertedListener(playlist -> updatePlaylists());
 		player.addPlaylistChangedListener(() -> updatePlaylists());
 
+		updatePlaylists();
 	}
 
 	/**
 	 * Baut das Panel, welches die Playlists beinhaltet, neu auf
 	 */
 	public void updatePlaylists() {
-		System.out.println("updating playlist");
 		playlistPanel.removeAll();
+		System.out.println("#playlists: "+player.getPlaylists().size());
 		for (final Playlist playlist : player.getPlaylists()) {
 
-			final JButton playlistButton = new JButton();
+			System.out.println("Building playlist: "+playlist);
+			
+			JButton playlistButton = new JButton();
 			playlistButton.setIcon(new ImageIcon(playlist.getCoverImage()));
 			playlistButton.setText(playlist.getTitle());
-			playlistButton.addActionListener(e -> player.selectPlaylist(playlist));
 			playlistButton.setHorizontalTextPosition(JButton.CENTER);
 			playlistButton.setVerticalTextPosition(JButton.BOTTOM);
-
 			if (player.getPlaylist() == playlist) {
+				System.out.println("THIS!");
 				playlistButton.setBackground(Color.GREEN);
 			}
+			playlistButton.addActionListener(e -> player.selectPlaylist(playlist));
 			playlistPanel.add(playlistButton);
 		}
+		repaint();
 	}
 
 }
