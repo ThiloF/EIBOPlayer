@@ -79,6 +79,7 @@ public class MusicPlayer implements IPlayer {
 	}
 
 	private void finished() {
+		currentPlayer.pause();
 		notifyTrackStoppedListener(false);
 		System.out.println("song ended");
 	}
@@ -143,12 +144,14 @@ public class MusicPlayer implements IPlayer {
 	public void skip() {
 		int index = currentPlaylist.getTracks().indexOf(currentTrack);
 		selectTrackNumber(index + 1);
+		play();
 	}
 
 	@Override
 	public void skipBack() {
 		int index = currentPlaylist.getTracks().indexOf(currentTrack);
 		selectTrackNumber(index - 1);
+		play();
 	}
 
 	@Override
@@ -230,6 +233,15 @@ public class MusicPlayer implements IPlayer {
 
 	public void removeTrack(int selectedIndex) {
 		library.removeTrackFromPlaylist(currentPlaylist, selectedIndex);
+	}
+
+	public int getTrackNumber() {
+		for (int i = 0; i < currentPlaylist.numberOfTracks(); i++) {
+			if (currentPlaylist.getTrack(i) == currentTrack) {
+				return i;
+			}
+		}
+		return -1;
 	}
 
 }

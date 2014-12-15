@@ -24,15 +24,13 @@ public class GuiTracklist extends JPanel {
 	private GuiMain guiMain;
 	private MusicPlayer player;
 	
-	JList<String> tracklist;
-	DefaultListModel<String> tracklistModel = new DefaultListModel<>();
+	private JList<String> tracklist;
+	private DefaultListModel<String> tracklistModel = new DefaultListModel<>();
 	
 	public GuiTracklist(GuiMain guiMain, MusicPlayer player) {
 		this.guiMain = guiMain;
 		this.player = player;
 		init();
-		
-		player.addPlaylistInsertedListener(p -> updateTracklist(p));
 	}
 	
 	private void init() {
@@ -60,6 +58,9 @@ public class GuiTracklist extends JPanel {
 				}
 			}
 		});
+		
+		player.addPlaylistInsertedListener(p -> updateTracklist(p));
+		player.addTrackStartedListener(() -> tracklist.setSelectedIndex(player.getTrackNumber()));
 		
 		add(tracklist);
 		

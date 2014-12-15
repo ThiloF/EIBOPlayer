@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 public class Playlist {
 	private String title;
 	private Image coverImage;
-	ArrayList<Track> list = new ArrayList<Track>();
+	ArrayList<Track> tracks = new ArrayList<Track>();
 
 	public static Image DEFAULT_COVERIMAGE;
 	static {
@@ -29,7 +29,7 @@ public class Playlist {
 		} else {
 			this.coverImage = coverImage;
 		}
-		this.list = tracks;
+		this.tracks = tracks;
 	}
 
 	public Playlist(String title, ArrayList<Track> tracks) {
@@ -37,7 +37,7 @@ public class Playlist {
 	}
 
 	public Track getTitle(String title) {
-		for (Track t : list) {
+		for (Track t : tracks) {
 			if (t.getTitle().equals(title)) {
 				return t;
 			}
@@ -46,7 +46,7 @@ public class Playlist {
 	}
 
 	public ArrayList<Track> getTracks() {
-		return list;
+		return tracks;
 	}
 
 	public String getTitle() {
@@ -58,17 +58,17 @@ public class Playlist {
 	}
 
 	public void addTrack(Track tr) {
-		list.add(tr);
+		tracks.add(tr);
 	}
 
 	public int numberOfTracks() {
-		return list.size();
+		return tracks.size();
 	}
 
 	public Track getTrack(int no) {
-		if (no < 0 || no >= list.size())
+		if (no < 0 || no >= tracks.size())
 			return null;
-		return list.get(no);
+		return tracks.get(no);
 	}
 	
 	public Image getCoverImage() {
@@ -76,7 +76,7 @@ public class Playlist {
 	}
 
 	public void printList() {
-		for (Track t : list) {
+		for (Track t : tracks) {
 			System.out.println("Name: " + t.getTitle());
 		}
 	}

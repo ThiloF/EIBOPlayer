@@ -71,7 +71,7 @@ public class Library {
 	}
 
 	public void removeTrackFromPlaylist(Playlist playlist, int index) {
-		playlist.list.remove(index);
+		playlist.tracks.remove(index);
 		save(playlist);
 	}
 }

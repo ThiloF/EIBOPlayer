@@ -1,16 +1,13 @@
 package GUI2;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.Timer;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import Business.MusicPlayer;
 
@@ -37,9 +34,15 @@ public class GuiControl extends JPanel {
 		setBackground(Color.yellow);
 
 		playpause = new JButton();
-		stop = new JButton("stop");
-		skip = new JButton(">>");
-		skipback = new JButton("<<");
+		stop = new JButton("■");
+		skip = new JButton("►►");
+		skipback = new JButton("◄◄");
+
+		Dimension size = new Dimension(30, 30);
+		playpause.setPreferredSize(size);
+		stop.setPreferredSize(size);
+		skip.setPreferredSize(size);
+		skipback.setPreferredSize(size);
 
 		progressSlider = new JSlider();
 		progressSlider.setUI(new CustomSliderUI(progressSlider));
@@ -52,23 +55,28 @@ public class GuiControl extends JPanel {
 				player.play();
 			}
 		});
-		
+
 		stop.addActionListener(e -> player.stop());
+		skip.addActionListener(e -> player.skip());
+		skipback.addActionListener(e -> player.skipBack());
 
 		player.addTrackStartedListener(() -> {
 			updateButtonText();
 			setProgressMax(player.getTrack().getLength());
 		});
-		
+
 		player.addTrackStoppedListener(cancelled -> updateButtonText());
 		player.addTrackPausedListener(() -> updateButtonText());
 
-		this.setLayout(new GridLayout(0, 3));
-		this.add(skipback);
-		this.add(playpause);
-		this.add(stop);
-		this.add(skip);
-		this.add(progressSlider);
+		progressSlider.addChangeListener(e -> {
+			if (skipped) {
+				skipped = false;
+				return;
+			}
+			if (!progressSlider.getValueIsAdjusting()) {
+				player.cue(progressSlider.getValue());
+			}
+		});
 
 		Timer progressTimer = new Timer(200, e -> {
 			if (!progressSlider.getValueIsAdjusting()) {
@@ -77,20 +85,12 @@ public class GuiControl extends JPanel {
 		});
 		progressTimer.start();
 
-		progressSlider.addChangeListener(new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				if (skipped) {
-					skipped = false;
-					return;
-				}
-				if (progressSlider.getValueIsAdjusting()) {
-					return;
-				}
-				System.out.println("Skipping to " + progressSlider.getValue());
-				player.cue(progressSlider.getValue());
-			}
-		});
+		this.setLayout(new GridLayout(0, 5));
+		this.add(skipback);
+		this.add(playpause);
+		this.add(stop);
+		this.add(skip);
+		this.add(progressSlider);
 
 		updateButtonText();
 	}
@@ -108,9 +108,9 @@ public class GuiControl extends JPanel {
 	private void updateButtonText() {
 		System.out.println("update");
 		if (player.isPlaying()) {
-			playpause.setText("Pause");
+			playpause.setText("▐▐");
 		} else {
-			playpause.setText("Play");
+			playpause.setText("▶");
 		}
 	}
 
