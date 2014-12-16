@@ -1,6 +1,6 @@
 package business;
 
-import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,10 +9,10 @@ import javax.imageio.ImageIO;
 
 public class Playlist {
 	private String title;
-	private Image coverImage;
+	private BufferedImage coverImage;
 	ArrayList<Track> tracks = new ArrayList<Track>();
 
-	public static Image DEFAULT_COVERIMAGE;
+	public static BufferedImage DEFAULT_COVERIMAGE;
 	static {
 		try {
 			DEFAULT_COVERIMAGE = ImageIO.read(new File("defaultcover.png"));
@@ -22,7 +22,7 @@ public class Playlist {
 		}
 	}
 
-	public Playlist(String title, Image coverImage, ArrayList<Track> tracks) {
+	public Playlist(String title, BufferedImage coverImage, ArrayList<Track> tracks) {
 		this.title = title;
 		if (coverImage == null) {
 			this.coverImage = DEFAULT_COVERIMAGE;
@@ -71,7 +71,7 @@ public class Playlist {
 		return tracks.get(no);
 	}
 	
-	public Image getCoverImage() {
+	public BufferedImage getCoverImage() {
 		return coverImage;
 	}
 

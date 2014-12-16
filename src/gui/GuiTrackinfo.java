@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JLabel;
@@ -22,7 +23,7 @@ public class GuiTrackinfo extends JPanel {
 	
 	private void init() {
 		
-		setLayout(new GridLayout(2, 0));
+		setLayout(new GridBagLayout());
 		
 		player.addTrackStartedListener(() -> reload());
 		
@@ -31,6 +32,9 @@ public class GuiTrackinfo extends JPanel {
 	private void reload() {
 		removeAll();
 		add(new JLabel(player.getTrack().getTitle()));
+		add(new JImage(player.getPlaylist().getCoverImage()));
+		revalidate();
+		repaint();
 	}
 	
 }
