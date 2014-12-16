@@ -31,7 +31,7 @@ public class MusicPlayer {
 	public void addTrackStoppedListener(TrackStoppedListener listener) {
 		trackStoppedListeners.add(listener);
 	}
-	
+
 	public void addTrackPausedListener(TrackPausedListener listener) {
 		trackPausedListeners.add(listener);
 	}
@@ -39,7 +39,7 @@ public class MusicPlayer {
 	public void addPlaylistInsertedListener(PlaylistInsertedListener listener) {
 		playlistInsertedListeners.add(listener);
 	}
-	
+
 	public void addPlaylistChangedListener(PlaylistChangedListener listener) {
 		playlistChangedListeners.add(listener);
 	}
@@ -51,7 +51,7 @@ public class MusicPlayer {
 	private void notifyTrackStoppedListener(boolean cancelled) {
 		trackStoppedListeners.forEach(l -> l.trackStopped(cancelled));
 	}
-	
+
 	private void notifyTrackPausedListener() {
 		trackPausedListeners.forEach(l -> l.trackPaused());
 	}
@@ -63,7 +63,7 @@ public class MusicPlayer {
 	private void notifyPlaylistChangedListener() {
 		playlistChangedListeners.forEach(l -> l.playlistChanged());
 	}
-	
+
 	/*
 	 * LISTENERS END
 	 */
@@ -95,11 +95,12 @@ public class MusicPlayer {
 	}
 
 	/**
-	 * Diese Funktion ist ein furchtbarer Hack.
-	 * Mimim ist toll, um Sachen abzuspielen, aber es kann einem nicht mitteilen,
-	 * wann ein Lied vorbei ist. Noch schlimmer: Nachdem ein Lied bis zum Ende gelaufen ist,
-	 * bleibt es zwischen 1 und so 60 ms vor dem Ende händen und setzt isPlaying nie auf false.
-	 * Dies ist die beste Lösung, die ich hingekriegt habe, um beim Liedende ein Event auszulösen...
+	 * FIXME Diese Funktion ist ein furchtbarer Hack. Mimim ist toll, um Sachen
+	 * abzuspielen, aber es kann einem nicht mitteilen, wann ein Lied vorbei
+	 * ist. Noch schlimmer: Nachdem ein Lied bis zum Ende gelaufen ist, bleibt
+	 * es zwischen 1 und so 60 ms vor dem Ende händen und setzt isPlaying nie
+	 * auf false. Dies ist die beste Lösung, die ich hingekriegt habe, um beim
+	 * Liedende ein Event auszulösen...
 	 */
 	private void startFinishedChecker() {
 		if (checkFinishedThread != null) {
@@ -130,7 +131,8 @@ public class MusicPlayer {
 	}
 
 	/**
-	 * Spielt den aktuellen Track ab. Falls pausiert, geht es an entsprechender Stelle weiter.
+	 * Spielt den aktuellen Track ab. Falls pausiert, geht es an entsprechender
+	 * Stelle weiter.
 	 */
 	public void play() {
 		if (currentTrack == null) {
@@ -140,7 +142,7 @@ public class MusicPlayer {
 			stop();
 		}
 		if (currentPlayer == null || (!currentPlayer.isPlaying() && !paused)) {
-			currentPlayer = MINIM.loadFile(currentTrack.getSoundFile().getPath());			
+			currentPlayer = MINIM.loadFile(currentTrack.getSoundFile().getPath());
 		}
 		currentPlayer.play();
 		paused = false;
@@ -153,7 +155,8 @@ public class MusicPlayer {
 	 */
 	public void stop() {
 		if (currentPlayer != null) {
-			// Da Minim's isPlaying selbst nach close() weiterhin auf true steht, wird zuerst pausiert.
+			// Da Minim's dumme isPlaying() selbst nach close() weiterhin true liefert,
+			// wird hier zuerst pausiert.
 			currentPlayer.pause();
 			currentPlayer.close();
 			notifyTrackStoppedListener(true);
@@ -166,8 +169,7 @@ public class MusicPlayer {
 	 * Stoppt den aktuellen Track und spielt den nächsten in der Liste ab
 	 */
 	public void skip() {
-		int index = currentPlaylist.getTracks().indexOf(currentTrack);
-		selectTrackNumber(index + 1);
+		selectTrackNumber(getTrackNumber() + 1);
 		play();
 	}
 
@@ -175,8 +177,7 @@ public class MusicPlayer {
 	 * Stoppt den aktuellen Track und spielt den vorherigen in der Liste ab
 	 */
 	public void skipBack() {
-		int index = currentPlaylist.getTracks().indexOf(currentTrack);
-		selectTrackNumber(index - 1);
+		selectTrackNumber(getTrackNumber() - 1);
 		play();
 	}
 
@@ -186,7 +187,7 @@ public class MusicPlayer {
 	public Playlist getPlaylist() {
 		return currentPlaylist;
 	}
-	
+
 	/**
 	 * @return Liste der geladenen Playlists
 	 */
@@ -207,15 +208,19 @@ public class MusicPlayer {
 
 	/**
 	 * Wählt einen neuen Track aus.
-	 * @param track der neue Track
+	 * 
+	 * @param track
+	 *            der neue Track
 	 */
 	public void selectTrack(Track track) {
 		currentTrack = track;
 	}
-	
+
 	/**
 	 * Wählt einen neuen Track anhand der Nummerierung aus.
-	 * @param num Track-Nummer
+	 * 
+	 * @param num
+	 *            Track-Nummer
 	 */
 	public void selectTrackNumber(int num) {
 		int length = currentPlaylist.getTracks().size();
@@ -225,16 +230,22 @@ public class MusicPlayer {
 
 	/**
 	 * Wählt eine neue Playlist aus
-	 * @param playlist neue Playlist
+	 * 
+	 * @param playlist
+	 *            neue Playlist
 	 */
 	public void selectPlaylist(Playlist playlist) {
+		System.out.println("selecting " + playlist + " when current is " + currentPlaylist);
 		currentPlaylist = playlist;
 		notifyPlaylistInsertedListener(playlist);
+		System.out.println("finished notifying");
 	}
-	
+
 	/**
 	 * Wählt eine neue Playlist anhand der Nummerierung aus
-	 * @param num Playlist-Nummer
+	 * 
+	 * @param num
+	 *            Playlist-Nummer
 	 */
 	public void selectPlaylistNumber(int num) {
 		int length = library.getPlaylists().size();
@@ -258,7 +269,9 @@ public class MusicPlayer {
 
 	/**
 	 * Fügt der aktuell ausgewählten Playlist einen Track hinzu
-	 * @param track hinzuzufügender Track
+	 * 
+	 * @param track
+	 *            hinzuzufügender Track
 	 */
 	public void addTrackToPlaylist(Track track) {
 		currentPlaylist.addTrack(track);
@@ -267,8 +280,11 @@ public class MusicPlayer {
 	}
 
 	/**
-	 * Gibt an FileManager's Funktion weiter, welche eine Datei zu einem Track-Objekt umarbeitet
-	 * @param file Musikdatei
+	 * Gibt an FileManager's Funktion weiter, welche eine Datei zu einem
+	 * Track-Objekt umarbeitet
+	 * 
+	 * @param file
+	 *            Musikdatei
 	 * @return erstelltes Track-Objekt
 	 */
 	public Track getTrackFromFile(File file) {
@@ -306,7 +322,9 @@ public class MusicPlayer {
 
 	/**
 	 * Entfernt einen Track aus der aktuellen Playlist anhand der Nummerierung
-	 * @param index Track-Nummer
+	 * 
+	 * @param index
+	 *            Track-Nummer
 	 */
 	public void removeTrack(int index) {
 		library.removeTrackFromPlaylist(currentPlaylist, index);
@@ -316,17 +334,14 @@ public class MusicPlayer {
 	 * @return Nummer des Tracks, der gerade abgespielt wird
 	 */
 	public int getTrackNumber() {
-		for (int i = 0; i < currentPlaylist.numberOfTracks(); i++) {
-			if (currentPlaylist.getTrack(i) == currentTrack) {
-				return i;
-			}
-		}
-		return -1;
+		return currentPlaylist.getTracks().indexOf(currentTrack);
 	}
 
 	/**
 	 * Fügt eine neue Playlist hinzu
-	 * @param playlist neue Playlist
+	 * 
+	 * @param playlist
+	 *            neue Playlist
 	 */
 	public void addPlaylist(Playlist playlist) {
 		library.add(playlist);

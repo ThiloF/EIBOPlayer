@@ -53,23 +53,20 @@ public class GuiPlaylists extends JPanel {
 	 */
 	public void updatePlaylists() {
 		playlistPanel.removeAll();
-		System.out.println("#playlists: "+player.getPlaylists().size());
 		for (final Playlist playlist : player.getPlaylists()) {
 
-			System.out.println("Building playlist: "+playlist);
-			
 			JButton playlistButton = new JButton();
 			playlistButton.setIcon(new ImageIcon(playlist.getCoverImage()));
 			playlistButton.setText(playlist.getTitle());
 			playlistButton.setHorizontalTextPosition(JButton.CENTER);
 			playlistButton.setVerticalTextPosition(JButton.BOTTOM);
 			if (player.getPlaylist() == playlist) {
-				System.out.println("THIS!");
 				playlistButton.setBackground(Color.GREEN);
 			}
 			playlistButton.addActionListener(e -> player.selectPlaylist(playlist));
 			playlistPanel.add(playlistButton);
 		}
+		revalidate();
 		repaint();
 	}
 
