@@ -3,7 +3,7 @@ package business.listeners;
 /**
  * Listener-Interface für TrackStopped Events
  * 
- * @author fkoen001
+ * @author tfalk001, smerb001, ladam001, fkoen001
  *
  */
 public interface TrackStoppedListener {

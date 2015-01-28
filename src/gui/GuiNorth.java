@@ -9,7 +9,7 @@ import business.MusicPlayer;
 /**
  * Gui-Komponente, die den oberen Bereich des Players darstellt und Menüleiste + Playlists beinhaltet
  * 
- * @author fkoen001
+ * @author tfalk001, smerb001, ladam001, fkoen001
  *
  */
 public class GuiNorth extends JPanel {

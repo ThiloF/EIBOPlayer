@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Diese Klasse stellt eine abstrakte Sammlung von Playlist-Objekten dar und bietet entsprechende Funktionalitäten zum Verwalten an.
  * 
- * @author fkoen001
+ * @author tfalk001, smerb001, ladam001, fkoen001
  *
  */
 public class Library {
@@ -79,6 +79,7 @@ public class Library {
 
 	/**
 	 * Speichert eine Playlist (auf die Festplatte)
+	 * 
 	 * @param playlist
 	 */
 	public void save(Playlist playlist) {
@@ -101,8 +102,11 @@ public class Library {
 
 	/**
 	 * Entfernt einen Track aus einer Playlist (und speichert das auch)
-	 * @param playlist Betroffene Playlist
-	 * @param index Index der zu entfernenden Lieds
+	 * 
+	 * @param playlist
+	 *            Betroffene Playlist
+	 * @param index
+	 *            Index der zu entfernenden Lieds
 	 */
 	public void removeTrackFromPlaylist(Playlist playlist, int index) {
 		playlist.tracks.remove(index);

@@ -16,7 +16,8 @@ import business.Playlist;
 
 /**
  * Gui-Komponente, die die Playlist-Liste darstellt
- * @author fkoen001
+ * 
+ * @author tfalk001, smerb001, ladam001, fkoen001
  *
  */
 public class GuiPlaylists extends JPanel {

@@ -1,11 +1,13 @@
-package business;
+package main;
 
+import business.Library;
+import business.MusicPlayer;
 import gui.GuiMain;
 
 /**
  * Einstiegsklasse, die die Main-Funktion beinhaltet. Startet das Haupt-Swingfenster
  * 
- * @author fkoen001
+ * @author tfalk001, smerb001, ladam001, fkoen001
  *
  */
 public class Main {

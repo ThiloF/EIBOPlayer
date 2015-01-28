@@ -13,7 +13,8 @@ import business.MusicPlayer;
 
 /**
  * Gui-Komponente, die die Steuerleiste darstellt.
- * @author fkoen001
+ * 
+ * @author tfalk001, smerb001, ladam001, fkoen001
  *
  */
 public class GuiControl extends JPanel {
@@ -43,7 +44,7 @@ public class GuiControl extends JPanel {
 		skipback = new JButton("◄◄");
 		autoskipButton = new JButton();
 		autoskipButton.setFont(new Font("Sans-Serif", Font.BOLD, 20));
-		
+
 		Dimension size = new Dimension(30, 30);
 		playpause.setPreferredSize(size);
 		stop.setPreferredSize(size);
@@ -70,7 +71,7 @@ public class GuiControl extends JPanel {
 			autoskip = !autoskip;
 			updateAutoskipButton();
 		});
-		
+
 		player.addTrackStartedListener(() -> {
 			updateButtonText();
 			setProgressMax(player.getTrack().getLength());
@@ -106,9 +107,9 @@ public class GuiControl extends JPanel {
 		left.setPreferredSize(new Dimension(100, 30));
 		left.setLayout(new GridLayout(1, 1));
 		right.setLayout(new GridLayout(1, 1));
-		
+
 		this.setLayout(new GridLayout(0, 2));
-		
+
 		left.add(skipback);
 		left.add(playpause);
 		left.add(stop);
@@ -118,7 +119,7 @@ public class GuiControl extends JPanel {
 
 		add(left);
 		add(right);
-		
+
 		updateButtonText();
 		updateAutoskipButton();
 	}

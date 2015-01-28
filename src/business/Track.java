@@ -5,7 +5,7 @@ import java.io.File;
 /**
  * Track-Klasse. Beinhaltet abstrakt einen Track
  * 
- * @author fkoen001
+ * @author tfalk001, smerb001, ladam001, fkoen001
  *
  */
 public class Track {
@@ -44,7 +44,9 @@ public class Track {
 
 	/**
 	 * Setzt den Titel des Tracks
-	 * @param title neuer Titel
+	 * 
+	 * @param title
+	 *            neuer Titel
 	 */
 	public void setTitle(String title) {
 		this.title = title;
@@ -52,6 +54,7 @@ public class Track {
 
 	/**
 	 * Gibt die Länge des Tracks zurück
+	 * 
 	 * @return Länge des Tracks in Sekunden
 	 */
 	public int getLength() {
@@ -60,7 +63,9 @@ public class Track {
 
 	/**
 	 * Setzt die Länge des Tracks
-	 * @param length Tracklänge in Sekunden
+	 * 
+	 * @param length
+	 *            Tracklänge in Sekunden
 	 */
 	public void setLength(int length) {
 		this.length = length;
@@ -68,6 +73,7 @@ public class Track {
 
 	/**
 	 * Gibt den Interpreten des Tracks zurück
+	 * 
 	 * @return Track-Interpret
 	 */
 	public String getInterpret() {
@@ -76,7 +82,9 @@ public class Track {
 
 	/**
 	 * Setzt den Interpreten des Tracks
-	 * @param interpret Track-Interpret
+	 * 
+	 * @param interpret
+	 *            Track-Interpret
 	 */
 	public void setBand(String interpret) {
 		this.interpret = interpret;
@@ -84,6 +92,7 @@ public class Track {
 
 	/**
 	 * Gibt die Sounddatei des Tracks zurück
+	 * 
 	 * @return Sounddatei des Tracks als File-Objekt
 	 */
 	public File getSoundFile() {

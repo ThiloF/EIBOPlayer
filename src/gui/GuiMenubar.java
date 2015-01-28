@@ -13,7 +13,7 @@ import business.Track;
 /**
  * Gui-Komponente, die die Menüleiste darstellt.
  * 
- * @author fkoen001
+ * @author tfalk001, smerb001, ladam001, fkoen001
  *
  */
 public class GuiMenubar extends JMenuBar {

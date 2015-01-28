@@ -11,7 +11,8 @@ import business.MusicPlayer;
 
 /**
  * Gui-Komponente, die die Trackinformationen darstellt
- * @author fkoen001
+ * 
+ * @author tfalk001, smerb001, ladam001, fkoen001
  *
  */
 public class GuiTrackinfo extends JPanel {

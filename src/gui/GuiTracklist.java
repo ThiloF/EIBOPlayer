@@ -17,7 +17,7 @@ import business.Track;
 /**
  * Gui-Komponente, die die Trackliste darstellt
  * 
- * @author fkoen001
+ * @author tfalk001, smerb001, ladam001, fkoen001
  *
  */
 public class GuiTracklist extends JPanel {

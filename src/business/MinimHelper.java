@@ -8,7 +8,7 @@ import java.io.InputStream;
 /**
  * Hilfsklasse für Minim. Wird benötigt, um Dateinamen als Streams darzustellen.
  * 
- * @author fkoen001
+ * @author tfalk001, smerb001, ladam001, fkoen001
  *
  */
 public class MinimHelper {

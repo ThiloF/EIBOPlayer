@@ -11,19 +11,20 @@ import javax.swing.JPanel;
 
 /**
  * Eigenes Pseudo-Swing-Element. Wird als Bild verwendet.
- * @author fkoen001
+ * 
+ * @author tfalk001, smerb001, ladam001, fkoen001
  *
  */
 public class JImage extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private BufferedImage image = null;
 
 	public JImage(File file) {
 		this(getImage(file));
 	}
-	
+
 	public JImage(BufferedImage image) {
 		this.image = image;
 		setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
@@ -37,7 +38,7 @@ public class JImage extends JPanel {
 		}
 		return null;
 	}
-	
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);

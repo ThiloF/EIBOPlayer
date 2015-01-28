@@ -15,7 +15,7 @@ import ddf.minim.Minim;
 /**
  * Musikplayer-Klasse. Wird verwendet zum Abspielen von Songs. Beinhaltet alle Funktionalitäten, die ein mittelguter Musikplayer braucht.
  * 
- * @author fkoen001
+ * @author tfalk001, smerb001, ladam001, fkoen001
  *
  */
 public class MusicPlayer {

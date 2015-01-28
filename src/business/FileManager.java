@@ -19,7 +19,7 @@ import ddf.minim.AudioPlayer;
 /**
  * Diese statische Helferklasse fungiert als Datenschicht unter der Playerlogik. Sie macht alles, was die Festplatte o.ä. betrifft
  * 
- * @author fkoen001
+ * @author tfalk001, smerb001, ladam001, fkoen001
  *
  */
 public class FileManager {
@@ -28,7 +28,9 @@ public class FileManager {
 
 	/**
 	 * Gibt den Dateipfad zurück, der eine Playlist repräsentiert
-	 * @param playlist Playlist
+	 * 
+	 * @param playlist
+	 *            Playlist
 	 * @return Dateipfad der Playlist
 	 */
 	private static String getPathForPlaylist(Playlist playlist) {
@@ -37,17 +39,22 @@ public class FileManager {
 
 	/**
 	 * Überladung von getTrackFromFile(file, title)
-	 * @param file Songdatei (z.B. mp3)
+	 * 
+	 * @param file
+	 *            Songdatei (z.B. mp3)
 	 * @return Track-Objekt
 	 */
 	public static Track getTrackFromFile(File file) {
 		return getTrackFromFile(file, null);
 	}
-	
+
 	/**
 	 * Liest eine Songdatei in ein Track-Objekt ein
-	 * @param file Songdatei (z.B. mp3)
-	 * @param title optionaler Titel, der dem Track gegeben werden soll.
+	 * 
+	 * @param file
+	 *            Songdatei (z.B. mp3)
+	 * @param title
+	 *            optionaler Titel, der dem Track gegeben werden soll.
 	 * @return Track-Objekt
 	 */
 	public static Track getTrackFromFile(File file, String title) {

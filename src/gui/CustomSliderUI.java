@@ -9,7 +9,7 @@ import javax.swing.plaf.basic.BasicSliderUI;
 /**
  * Eigene Slider-UI, die das Springen des Slider-Cursors an die Stelle der Maus ermöglicht
  * 
- * @author fkoen001
+ * @author tfalk001, smerb001, ladam001, fkoen001
  *
  */
 public class CustomSliderUI extends BasicSliderUI implements MouseListener {

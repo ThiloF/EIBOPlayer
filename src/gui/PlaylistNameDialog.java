@@ -16,7 +16,7 @@ import business.Track;
 /**
  * Gui-Komponente die das Prompt darstellt, welches beim erstellen einer neuen Playlist nach dem Namen fragt.
  * 
- * @author fkoen001
+ * @author tfalk001, smerb001, ladam001, fkoen001
  *
  */
 public class PlaylistNameDialog extends JDialog {

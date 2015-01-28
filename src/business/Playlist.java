@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 /**
  * Playlist-Klasse. Stellt eine Playlist mit mehreren Liedern dar.
  * 
- * @author fkoen001
+ * @author tfalk001, smerb001, ladam001, fkoen001
  *
  */
 public class Playlist {
@@ -30,9 +30,13 @@ public class Playlist {
 
 	/**
 	 * Erstellt eine neue Playlist
-	 * @param title Titel der Playlist
-	 * @param coverImage Coverbild der Playlist
-	 * @param tracks Liste der Tracks, die die Playlist beinhalten soll
+	 * 
+	 * @param title
+	 *            Titel der Playlist
+	 * @param coverImage
+	 *            Coverbild der Playlist
+	 * @param tracks
+	 *            Liste der Tracks, die die Playlist beinhalten soll
 	 */
 	public Playlist(String title, BufferedImage coverImage, ArrayList<Track> tracks) {
 		this.title = title;
@@ -46,8 +50,11 @@ public class Playlist {
 
 	/**
 	 * Erstellt eine neue Playlist
-	 * @param title Titel der Playlist
-	 * @param tracks Liste der Tracks, die die Playlist beinhalten soll
+	 * 
+	 * @param title
+	 *            Titel der Playlist
+	 * @param tracks
+	 *            Liste der Tracks, die die Playlist beinhalten soll
 	 */
 	public Playlist(String title, ArrayList<Track> tracks) {
 		this(title, null, tracks);
@@ -55,7 +62,9 @@ public class Playlist {
 
 	/**
 	 * Gibt den Track zurück, der dem Titel entspricht
-	 * @param title Titel des zu findenden Tracks
+	 * 
+	 * @param title
+	 *            Titel des zu findenden Tracks
 	 * @return Track, der dem Titel entspricht, oder null
 	 */
 	public Track getTrackByTitle(String title) {
@@ -69,6 +78,7 @@ public class Playlist {
 
 	/**
 	 * Gibt die Tracks als Liste zurück
+	 * 
 	 * @return Tracks als ArrayList
 	 */
 	public ArrayList<Track> getTracks() {
@@ -77,6 +87,7 @@ public class Playlist {
 
 	/**
 	 * Gibt den Playlist-Titel zurück
+	 * 
 	 * @return Playlist-Titel
 	 */
 	public String getTitle() {
@@ -85,7 +96,9 @@ public class Playlist {
 
 	/**
 	 * Setzt den Titel der Playlist
-	 * @param title neuer Titel
+	 * 
+	 * @param title
+	 *            neuer Titel
 	 */
 	public void setTitle(String title) {
 		this.title = title;
@@ -93,7 +106,9 @@ public class Playlist {
 
 	/**
 	 * Fügt der Playlist einen Track hinzu
-	 * @param track neuer Track
+	 * 
+	 * @param track
+	 *            neuer Track
 	 */
 	public void addTrack(Track track) {
 		tracks.add(track);
@@ -101,6 +116,7 @@ public class Playlist {
 
 	/**
 	 * Gibt zurück, wie viele Tracks die Playlist beinhaltet
+	 * 
 	 * @return Anzahl an Tracks
 	 */
 	public int numberOfTracks() {
@@ -109,6 +125,7 @@ public class Playlist {
 
 	/**
 	 * Gibt einen Track anhand der Tracknummer zurück
+	 * 
 	 * @param trackNo
 	 * @return Der Track-Nr entsprechender Track, oder null
 	 */
@@ -121,6 +138,7 @@ public class Playlist {
 
 	/**
 	 * Gibt das Coverbild zurück
+	 * 
 	 * @return Coverbild als BufferedImage
 	 */
 	public BufferedImage getCoverImage() {
