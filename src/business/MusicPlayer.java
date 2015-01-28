@@ -12,6 +12,12 @@ import business.listeners.TrackStoppedListener;
 import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
 
+/**
+ * Musikplayer-Klasse. Wird verwendet zum Abspielen von Songs. Beinhaltet alle Funktionalitäten, die ein mittelguter Musikplayer braucht.
+ * 
+ * @author fkoen001
+ *
+ */
 public class MusicPlayer {
 
 	/*
@@ -91,16 +97,12 @@ public class MusicPlayer {
 	private void finished() {
 		currentPlayer.pause();
 		notifyTrackStoppedListener(false);
-		System.out.println("song ended");
 	}
 
 	/**
-	 * FIXME Diese Funktion ist ein furchtbarer Hack. Mimim ist toll, um Sachen
-	 * abzuspielen, aber es kann einem nicht mitteilen, wann ein Lied vorbei
-	 * ist. Noch schlimmer: Nachdem ein Lied bis zum Ende gelaufen ist, bleibt
-	 * es zwischen 1 und so 60 ms vor dem Ende händen und setzt isPlaying nie
-	 * auf false. Dies ist die beste Lösung, die ich hingekriegt habe, um beim
-	 * Liedende ein Event auszulösen...
+	 * FIXME Diese Funktion ist ein furchtbarer Hack. Mimim ist toll, um Sachen abzuspielen, aber es kann einem nicht mitteilen, wann ein Lied vorbei ist. Noch
+	 * schlimmer: Nachdem ein Lied bis zum Ende gelaufen ist, bleibt es zwischen 1 und so 60 ms vor dem Ende händen und setzt isPlaying nie auf false. Dies ist
+	 * die beste Lösung, die ich hingekriegt habe, um beim Liedende ein Event auszulösen...
 	 */
 	private void startFinishedChecker() {
 		if (checkFinishedThread != null) {
@@ -110,9 +112,10 @@ public class MusicPlayer {
 		checkFinishedThread = new Thread(new Runnable() {
 			public void run() {
 				while (!checkFinishedThread.isInterrupted()) {
-					// System.out.println("Length: "+currentPlayer.length());
-					// System.out.println("Pos: "+currentPlayer.position());
-					// System.out.println("Playing: "+currentPlayer.isPlaying());
+					// System.out.println("Length: " + currentPlayer.length());
+					// System.out.println("Pos: " + currentPlayer.position());
+					// System.out.println("Playing: " +
+					// currentPlayer.isPlaying());
 					if (currentPlayer != null && currentPlayer.position() >= currentPlayer.length() - 60) {
 						finished();
 						break;
@@ -121,7 +124,7 @@ public class MusicPlayer {
 						Thread.sleep(100);
 					} catch (InterruptedException e) {
 						checkFinishedThread.interrupt();
-						e.printStackTrace();
+						// e.printStackTrace();
 					}
 				}
 			}
@@ -131,8 +134,7 @@ public class MusicPlayer {
 	}
 
 	/**
-	 * Spielt den aktuellen Track ab. Falls pausiert, geht es an entsprechender
-	 * Stelle weiter.
+	 * Spielt den aktuellen Track ab. Falls pausiert, geht es an entsprechender Stelle weiter.
 	 */
 	public void play() {
 		if (currentTrack == null) {
@@ -155,7 +157,8 @@ public class MusicPlayer {
 	 */
 	public void stop() {
 		if (currentPlayer != null) {
-			// Da Minim's dumme isPlaying() selbst nach close() weiterhin true liefert,
+			// Da Minim's dumme isPlaying() selbst nach close() weiterhin true
+			// liefert,
 			// wird hier zuerst pausiert.
 			currentPlayer.pause();
 			currentPlayer.close();
@@ -224,6 +227,9 @@ public class MusicPlayer {
 	 */
 	public void selectTrackNumber(int num) {
 		int length = currentPlaylist.getTracks().size();
+		if (length <= 0) {
+			return;
+		}
 		num = (num + length) % length;
 		selectTrack(currentPlaylist.getTrack(num));
 	}
@@ -235,10 +241,8 @@ public class MusicPlayer {
 	 *            neue Playlist
 	 */
 	public void selectPlaylist(Playlist playlist) {
-		System.out.println("selecting " + playlist + " when current is " + currentPlaylist);
 		currentPlaylist = playlist;
 		notifyPlaylistInsertedListener(playlist);
-		System.out.println("finished notifying");
 	}
 
 	/**
@@ -280,8 +284,7 @@ public class MusicPlayer {
 	}
 
 	/**
-	 * Gibt an FileManager's Funktion weiter, welche eine Datei zu einem
-	 * Track-Objekt umarbeitet
+	 * Gibt an FileManager's Funktion weiter, welche eine Datei zu einem Track-Objekt umarbeitet
 	 * 
 	 * @param file
 	 *            Musikdatei
@@ -328,6 +331,17 @@ public class MusicPlayer {
 	 */
 	public void removeTrack(int index) {
 		library.removeTrackFromPlaylist(currentPlaylist, index);
+	}
+
+	/**
+	 * Entfernt eine Playlist aus der Bibliothek
+	 * 
+	 * @param index
+	 *            Playlist
+	 */
+	public void removePlaylist(Playlist playlist) {
+		library.remove(playlist);
+		notifyPlaylistChangedListener();
 	}
 
 	/**

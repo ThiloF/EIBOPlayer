@@ -4,10 +4,16 @@ import java.io.File;
 
 import javax.swing.JFileChooser;
 
+/**
+ * Gui-Komponente, welche die Dateiauswahl für das Hinzufügen von Tracks darstellt.
+ * 
+ * @author fkoen001
+ *
+ */
 public class TrackFileChooser extends JFileChooser {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private boolean searchMode = false;
 
 	public TrackFileChooser(boolean isDirectorieSearch) {

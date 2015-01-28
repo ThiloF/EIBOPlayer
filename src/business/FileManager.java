@@ -16,18 +16,40 @@ import java.util.regex.Pattern;
 import ddf.minim.AudioMetaData;
 import ddf.minim.AudioPlayer;
 
+/**
+ * Diese statische Helferklasse fungiert als Datenschicht unter der Playerlogik. Sie macht alles, was die Festplatte o.ä. betrifft
+ * 
+ * @author fkoen001
+ *
+ */
 public class FileManager {
 
 	private static String playlistsPath = "playlists";
 
+	/**
+	 * Gibt den Dateipfad zurück, der eine Playlist repräsentiert
+	 * @param playlist Playlist
+	 * @return Dateipfad der Playlist
+	 */
 	private static String getPathForPlaylist(Playlist playlist) {
 		return playlistsPath + File.separatorChar + playlist.getTitle() + ".m3u";
 	}
 
+	/**
+	 * Überladung von getTrackFromFile(file, title)
+	 * @param file Songdatei (z.B. mp3)
+	 * @return Track-Objekt
+	 */
 	public static Track getTrackFromFile(File file) {
 		return getTrackFromFile(file, null);
 	}
-
+	
+	/**
+	 * Liest eine Songdatei in ein Track-Objekt ein
+	 * @param file Songdatei (z.B. mp3)
+	 * @param title optionaler Titel, der dem Track gegeben werden soll.
+	 * @return Track-Objekt
+	 */
 	public static Track getTrackFromFile(File file, String title) {
 
 		if (!file.exists() || file.isDirectory()) {
@@ -38,8 +60,12 @@ public class FileManager {
 		AudioMetaData meta = p.getMetaData();
 		p.close();
 
-		if (title == null || title.isEmpty()) {
-			title = meta.title();
+		if ((title == null || title.isEmpty())) {
+			if (meta.title().isEmpty()) {
+				title = file.getName().substring(0, file.getName().lastIndexOf('.'));
+			} else {
+				title = meta.title();
+			}
 		}
 
 		return new Track(title, meta.length(), meta.author(), file);
@@ -47,8 +73,7 @@ public class FileManager {
 	}
 
 	/**
-	 * Diese Methode writePlayList bekommt als Parameter eine Playlist übergeben
-	 * und speichert diese als erweiterte M3U
+	 * Diese Methode writePlayList bekommt als Parameter eine Playlist übergeben und speichert diese als erweiterte M3U
 	 * 
 	 * @param playlist
 	 */
@@ -57,7 +82,7 @@ public class FileManager {
 			ArrayList<Track> tracks = playlist.getTracks();
 			write.println("#EXTM3U");
 			for (Track track : tracks) {
-				write.println("#EXTINF:" + track.getLength() + "," + track.getBand() + "-" + track.getTitle());
+				write.println("#EXTINF:" + track.getLength() + "," + track.getTitle());
 				write.println(track.getSoundFile());
 			}
 		} catch (IOException ioe) {
@@ -66,8 +91,7 @@ public class FileManager {
 	}
 
 	/**
-	 * Die Methode getM3Us durchsucht ein Verzeichnis nach m3us und gibt diese
-	 * in einer ArrayList vom Typ File zurück
+	 * Die Methode getM3Us durchsucht ein Verzeichnis nach m3us und gibt diese in einer ArrayList vom Typ File zurück
 	 * 
 	 * @param p
 	 * @return
@@ -114,7 +138,6 @@ public class FileManager {
 				} else {
 					File trackfile = new File(line);
 					if (trackfile.exists() && !trackfile.isDirectory()) {
-						System.out.println(title);
 						tracks.add(getTrackFromFile(trackfile, title));
 						title = "";
 					} else {
@@ -131,8 +154,7 @@ public class FileManager {
 	}
 
 	/**
-	 * Die Methode searchForMP3 durchläuft das Dateisystem ab dem im paramter
-	 * angebenen Parameter f
+	 * Die Methode searchForMP3 durchläuft das Dateisystem ab dem im paramter angebenen Parameter f
 	 * 
 	 * @param f
 	 * @param mp3list

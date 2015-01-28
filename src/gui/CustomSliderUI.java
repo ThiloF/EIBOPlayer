@@ -6,6 +6,12 @@ import java.awt.event.MouseListener;
 import javax.swing.JSlider;
 import javax.swing.plaf.basic.BasicSliderUI;
 
+/**
+ * Eigene Slider-UI, die das Springen des Slider-Cursors an die Stelle der Maus ermöglicht
+ * 
+ * @author fkoen001
+ *
+ */
 public class CustomSliderUI extends BasicSliderUI implements MouseListener {
 
 	public CustomSliderUI(JSlider b) {
@@ -19,9 +25,16 @@ public class CustomSliderUI extends BasicSliderUI implements MouseListener {
 		trackListener.mousePressed(e);
 	}
 
-	public void mouseClicked(MouseEvent e) {}
-	public void mouseReleased(MouseEvent e) {}
-	public void mouseEntered(MouseEvent e) {}
-	public void mouseExited(MouseEvent e) {}
+	public void mouseClicked(MouseEvent e) {
+	}
+
+	public void mouseReleased(MouseEvent e) {
+	}
+
+	public void mouseEntered(MouseEvent e) {
+	}
+
+	public void mouseExited(MouseEvent e) {
+	}
 
 }

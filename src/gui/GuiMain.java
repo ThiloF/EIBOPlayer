@@ -10,6 +10,11 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import business.MusicPlayer;
 
+/**
+ * Haupt-Gui. Stellt das eigentliche Player-Fenster dar und beinhaltet die einzelnen Gui-Komponenten
+ * @author fkoen001
+ *
+ */
 public class GuiMain {
 
 	private JFrame frame;

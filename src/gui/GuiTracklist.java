@@ -3,6 +3,8 @@ package gui;
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -12,6 +14,12 @@ import business.MusicPlayer;
 import business.Playlist;
 import business.Track;
 
+/**
+ * Gui-Komponente, die die Trackliste darstellt
+ * 
+ * @author fkoen001
+ *
+ */
 public class GuiTracklist extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -49,6 +57,17 @@ public class GuiTracklist extends JPanel {
 				if (tracklist.getSelectedIndex() >= 0 && e.getKeyChar() == KeyEvent.VK_DELETE) {
 					player.removeTrack(tracklist.getSelectedIndex());
 					updateTracklist(player.getPlaylist());
+				}
+			}
+		});
+
+		tracklist.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					// Doppelklick
+					player.selectTrackNumber(tracklist.getSelectedIndex());
+					player.play();
 				}
 			}
 		});

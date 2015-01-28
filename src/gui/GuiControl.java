@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
@@ -10,6 +11,11 @@ import javax.swing.Timer;
 
 import business.MusicPlayer;
 
+/**
+ * Gui-Komponente, die die Steuerleiste darstellt.
+ * @author fkoen001
+ *
+ */
 public class GuiControl extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -17,10 +23,11 @@ public class GuiControl extends JPanel {
 	private GuiMain guiMain;
 	private MusicPlayer player;
 
-	private JButton playpause, stop, skip, skipback;
+	private JButton playpause, stop, skip, skipback, autoskipButton;
 	private JSlider progressSlider;
 
 	private boolean skipped = false;
+	private boolean autoskip = false;
 
 	public GuiControl(GuiMain guiMain, MusicPlayer player) {
 		this.guiMain = guiMain;
@@ -34,7 +41,9 @@ public class GuiControl extends JPanel {
 		stop = new JButton("■");
 		skip = new JButton("►►");
 		skipback = new JButton("◄◄");
-
+		autoskipButton = new JButton();
+		autoskipButton.setFont(new Font("Sans-Serif", Font.BOLD, 20));
+		
 		Dimension size = new Dimension(30, 30);
 		playpause.setPreferredSize(size);
 		stop.setPreferredSize(size);
@@ -57,12 +66,22 @@ public class GuiControl extends JPanel {
 		skip.addActionListener(e -> player.skip());
 		skipback.addActionListener(e -> player.skipBack());
 
+		autoskipButton.addActionListener(e -> {
+			autoskip = !autoskip;
+			updateAutoskipButton();
+		});
+		
 		player.addTrackStartedListener(() -> {
 			updateButtonText();
 			setProgressMax(player.getTrack().getLength());
 		});
 
-		player.addTrackStoppedListener(cancelled -> updateButtonText());
+		player.addTrackStoppedListener(cancelled -> {
+			updateButtonText();
+			if (!cancelled && autoskip) {
+				player.skip();
+			}
+		});
 		player.addTrackPausedListener(() -> updateButtonText());
 
 		progressSlider.addChangeListener(e -> {
@@ -82,14 +101,26 @@ public class GuiControl extends JPanel {
 		});
 		progressTimer.start();
 
-		this.setLayout(new GridLayout(0, 5));
-		this.add(skipback);
-		this.add(playpause);
-		this.add(stop);
-		this.add(skip);
-		this.add(progressSlider);
+		JPanel left = new JPanel();
+		JPanel right = new JPanel();
+		left.setPreferredSize(new Dimension(100, 30));
+		left.setLayout(new GridLayout(1, 1));
+		right.setLayout(new GridLayout(1, 1));
+		
+		this.setLayout(new GridLayout(0, 2));
+		
+		left.add(skipback);
+		left.add(playpause);
+		left.add(stop);
+		left.add(skip);
+		left.add(autoskipButton);
+		right.add(progressSlider);
 
+		add(left);
+		add(right);
+		
 		updateButtonText();
+		updateAutoskipButton();
 	}
 
 	private void setProgressMax(int millis) {
@@ -103,7 +134,6 @@ public class GuiControl extends JPanel {
 	}
 
 	private void updateButtonText() {
-		System.out.println("update");
 		if (player.isPlaying()) {
 			playpause.setText("▐▐");
 		} else {
@@ -111,4 +141,13 @@ public class GuiControl extends JPanel {
 		}
 	}
 
+	private void updateAutoskipButton() {
+		if (autoskip) {
+			autoskipButton.setText("→");
+			autoskipButton.setToolTipText("Autoskip ist an");
+		} else {
+			autoskipButton.setText("↛");
+			autoskipButton.setToolTipText("Autoskip ist aus");
+		}
+	}
 }

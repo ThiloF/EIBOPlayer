@@ -9,10 +9,15 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+/**
+ * Eigenes Pseudo-Swing-Element. Wird als Bild verwendet.
+ * @author fkoen001
+ *
+ */
 public class JImage extends JPanel {
 
-	private static final long serialVersionUID = -8437953426052920859L;
-
+	private static final long serialVersionUID = 1L;
+	
 	private BufferedImage image = null;
 
 	public JImage(File file) {

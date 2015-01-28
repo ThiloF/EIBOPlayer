@@ -2,8 +2,6 @@ package gui;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -11,12 +9,16 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import business.FileManager;
-import business.Library;
 import business.MusicPlayer;
 import business.Playlist;
 import business.Track;
 
+/**
+ * Gui-Komponente die das Prompt darstellt, welches beim erstellen einer neuen Playlist nach dem Namen fragt.
+ * 
+ * @author fkoen001
+ *
+ */
 public class PlaylistNameDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
@@ -42,7 +44,7 @@ public class PlaylistNameDialog extends JDialog {
 		this.setSize(new Dimension(300, 100));
 		this.setModal(true);
 		this.setLayout(new GridLayout(3, 1));
-		this.add(new JLabel("Bitte geben Sie den Titel der PLaylist ein"));
+		this.add(new JLabel("Bitte geben Sie den Titel der Playlist ein"));
 		this.add(name);
 		this.add(speichern);
 

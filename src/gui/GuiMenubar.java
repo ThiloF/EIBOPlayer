@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.io.File;
 
@@ -11,6 +10,12 @@ import javax.swing.JMenuBar;
 import business.MusicPlayer;
 import business.Track;
 
+/**
+ * Gui-Komponente, die die Menüleiste darstellt.
+ * 
+ * @author fkoen001
+ *
+ */
 public class GuiMenubar extends JMenuBar {
 
 	private static final long serialVersionUID = 1L;
@@ -38,10 +43,7 @@ public class GuiMenubar extends JMenuBar {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				tfc.showOpenDialog(null);
-				System.out.println(tfc.getSelectedFile().getName());
-
 			}
 		});
 
@@ -51,7 +53,6 @@ public class GuiMenubar extends JMenuBar {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				tfc.showOpenDialog(null);
 				File[] newTracks = tfc.getSelectedFiles();
 				for (File f : newTracks) {
@@ -72,7 +73,7 @@ public class GuiMenubar extends JMenuBar {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
-				PlaylistNameDialog plnd = new PlaylistNameDialog(guiMain, player);
+				new PlaylistNameDialog(guiMain, player);
 
 			}
 		});
@@ -85,6 +86,18 @@ public class GuiMenubar extends JMenuBar {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 
+			}
+		});
+
+		playlistMenu.add(new AbstractAction("Ausgewählte Playlist löschen") {
+
+			private static final long serialVersionUID = -1665246041829119704L;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (player.getPlaylist() != null) {
+					player.removePlaylist(player.getPlaylist());
+				}
 			}
 		});
 

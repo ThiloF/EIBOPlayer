@@ -5,6 +5,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+/**
+ * Hilfsklasse für Minim. Wird benötigt, um Dateinamen als Streams darzustellen.
+ * 
+ * @author fkoen001
+ *
+ */
 public class MinimHelper {
 
 	public String sketchPath(String filename) {

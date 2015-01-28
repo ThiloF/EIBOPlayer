@@ -3,6 +3,8 @@ package gui;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -12,6 +14,11 @@ import javax.swing.JScrollPane;
 import business.MusicPlayer;
 import business.Playlist;
 
+/**
+ * Gui-Komponente, die die Playlist-Liste darstellt
+ * @author fkoen001
+ *
+ */
 public class GuiPlaylists extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -40,10 +47,18 @@ public class GuiPlaylists extends JPanel {
 		playlistScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		add(playlistScrollPane);
 
-		// FIXME Sobald dieser Listener hinzugefügt wird, schmiert die Playlist-GUI
-		// irgendwie ab, sobald man leere Playlists auswählt...
 		player.addPlaylistInsertedListener(playlist -> updatePlaylists());
 		player.addPlaylistChangedListener(() -> updatePlaylists());
+
+		playlistPanel.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if (player.getPlaylist() != null && e.getKeyChar() == KeyEvent.VK_DELETE) {
+					player.removePlaylist(player.getPlaylist());
+					updatePlaylists();
+				}
+			}
+		});
 
 		updatePlaylists();
 	}
