@@ -29,6 +29,11 @@ public class PlaylistNameDialog extends JDialog {
 	private JTextField name;
 	private JButton speichern;
 
+	/**
+	 * Erstellt eine Dialogbox mit Eingabefeld für einen Playlistnamen
+	 * @param guiMain
+	 * @param player
+	 */
 	public PlaylistNameDialog(GuiMain guiMain, MusicPlayer player) {
 		this.player = player;
 		name = new JTextField();
@@ -51,6 +56,9 @@ public class PlaylistNameDialog extends JDialog {
 		this.setVisible(true);
 	}
 
+	/**
+	 * Fügt eine neue Playlist der Bibliothek hinzu
+	 */
 	private void createNewPlayList() {
 
 		String listname = name.getText();

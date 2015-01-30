@@ -100,9 +100,9 @@ public class MusicPlayer {
 	}
 
 	/**
-	 * FIXME Diese Funktion ist ein furchtbarer Hack. Mimim ist toll, um Sachen abzuspielen, aber es kann einem nicht mitteilen, wann ein Lied vorbei ist. Noch
-	 * schlimmer: Nachdem ein Lied bis zum Ende gelaufen ist, bleibt es zwischen 1 und so 60 ms vor dem Ende händen und setzt isPlaying nie auf false. Dies ist
-	 * die beste Lösung, die ich hingekriegt habe, um beim Liedende ein Event auszulösen...
+	 * FIXME Diese Funktion ist ein furchtbarer Hack. Minim ist toll, um Sachen abzuspielen, aber es kann einem nicht mitteilen, wann ein Lied vorbei ist. Noch
+	 * schlimmer: Nachdem ein Lied bis zum Ende gelaufen ist, bleibt es zwischen 1 und so 60 ms vor dem Ende hängen und setzt isPlaying nie auf false. Dies ist
+	 * die beste Lösung, die ich hingekriegt habe, um beim Lied-Ende ein Event auszulösen...
 	 */
 	private void startFinishedChecker() {
 		if (checkFinishedThread != null) {
@@ -124,7 +124,6 @@ public class MusicPlayer {
 						Thread.sleep(100);
 					} catch (InterruptedException e) {
 						checkFinishedThread.interrupt();
-						// e.printStackTrace();
 					}
 				}
 			}

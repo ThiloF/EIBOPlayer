@@ -131,25 +131,6 @@ public class GuiControl extends JPanel {
 
 		add(progressSlider, gbc);
 
-		// JPanel left = new JPanel();
-		// JPanel right = new JPanel();
-		//
-		// left.setPreferredSize(new Dimension(100, 30));
-		// left.setLayout(new GridLayout(1, 1));
-		// right.setLayout(new GridLayout(1, 1));
-		//
-		// this.setLayout(new GridLayout(0, 2));
-		//
-		// left.add(skipback);
-		// left.add(playpause);
-		// left.add(stop);
-		// left.add(skip);
-		// left.add(autoskipButton);
-		// right.add(progressSlider);
-		//
-		// add(left);
-		// add(right);
-
 		updateButtonText();
 		updateAutoskipButton();
 	}

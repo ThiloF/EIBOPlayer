@@ -21,6 +21,9 @@ public class TrackFileChooser extends JFileChooser {
 		this.setMultiSelectionEnabled(true);
 	}
 
+	/**
+	 * Gibt zurück, ob der Chooser die Datei akzeptiert
+	 */
 	public boolean accept(File f) {
 		// Auch Unterverzeichnisse anzeigen
 		if (f.isDirectory()) {

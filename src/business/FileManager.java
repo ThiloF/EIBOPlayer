@@ -31,6 +31,13 @@ public class FileManager {
 	private static String playlistsPath = "playlists";
 	private static int coverSize = 160;
 
+	static {
+		File path = new File(playlistsPath+File.separatorChar);
+		if (!path.exists()) {
+			path.mkdir();
+		}
+	}
+	
 	/**
 	 * Gibt den Dateipfad zurück, der eine Playlist repräsentiert
 	 * 
@@ -212,6 +219,10 @@ public class FileManager {
 		return mp3list;
 	}
 
+	/**
+	 * Löscht eine Playlist vom Dateisystem
+	 * @param playlist Zu löschende Playlist
+	 */
 	public static void deletePlaylist(Playlist playlist) {
 		File file = new File(getPathForPlaylist(playlist));
 		if (!file.delete()) {
