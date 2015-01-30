@@ -168,11 +168,8 @@ public class FileManager {
 		// Sucht nach eventuellem Coverbild. Muss den Playlist-Dateinamen mit Bildendung haben
 		BufferedImage coverImage = null;
 		String basename = getPlaylistBasename(m3uFile.getName());
-		System.out.println(basename);
 		for (String ext : new String[] { "jpg", "png", "gif", "tiff" }) {
-			String asds = playlistsPath + File.separator + basename + "." + ext;
-			System.out.println(asds);
-			File coverFile = new File(asds);
+			File coverFile = new File(playlistsPath + File.separator + basename + "." + ext);
 			if (coverFile.exists()) {
 				try {
 					coverImage = new BufferedImage(coverSize, coverSize, BufferedImage.TYPE_INT_ARGB);
