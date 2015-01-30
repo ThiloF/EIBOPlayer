@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.KeyAdapter;
@@ -77,7 +76,7 @@ public class GuiPlaylists extends JPanel {
 			playlistButton.setHorizontalTextPosition(JButton.CENTER);
 			playlistButton.setVerticalTextPosition(JButton.BOTTOM);
 			if (player.getPlaylist() == playlist) {
-				playlistButton.setBackground(Color.GREEN);
+				playlistButton.setBackground(GuiMain.selectionColor);
 			}
 			playlistButton.addActionListener(e -> player.selectPlaylist(playlist));
 			playlistPanel.add(playlistButton);

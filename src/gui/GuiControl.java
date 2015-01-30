@@ -2,7 +2,9 @@ package gui;
 
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -45,11 +47,12 @@ public class GuiControl extends JPanel {
 		autoskipButton = new JButton();
 		autoskipButton.setFont(new Font("Sans-Serif", Font.BOLD, 20));
 
-		Dimension size = new Dimension(30, 30);
+		Dimension size = new Dimension(60, 40);
 		playpause.setPreferredSize(size);
 		stop.setPreferredSize(size);
 		skip.setPreferredSize(size);
 		skipback.setPreferredSize(size);
+		autoskipButton.setPreferredSize(size);
 
 		progressSlider = new JSlider();
 		progressSlider.setUI(new CustomSliderUI(progressSlider));
@@ -102,23 +105,50 @@ public class GuiControl extends JPanel {
 		});
 		progressTimer.start();
 
-		JPanel left = new JPanel();
-		JPanel right = new JPanel();
-		left.setPreferredSize(new Dimension(100, 30));
-		left.setLayout(new GridLayout(1, 1));
-		right.setLayout(new GridLayout(1, 1));
+		setLayout(new GridBagLayout());
 
-		this.setLayout(new GridLayout(0, 2));
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.LINE_START;
+		gbc.gridx = 0;
+		gbc.weightx = 0;
 
-		left.add(skipback);
-		left.add(playpause);
-		left.add(stop);
-		left.add(skip);
-		left.add(autoskipButton);
-		right.add(progressSlider);
+		add(skipback, gbc);
+		gbc.gridx++;
+		add(playpause, gbc);
+		gbc.gridx++;
+		add(stop, gbc);
+		gbc.gridx++;
+		add(skip, gbc);
+		gbc.gridx++;
+		add(autoskipButton, gbc);
 
-		add(left);
-		add(right);
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.LINE_END;
+		gbc.gridx = 5;
+		gbc.weightx = 1;
+		gbc.insets = new Insets(0, 20, 0, 20);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+
+		add(progressSlider, gbc);
+
+		// JPanel left = new JPanel();
+		// JPanel right = new JPanel();
+		//
+		// left.setPreferredSize(new Dimension(100, 30));
+		// left.setLayout(new GridLayout(1, 1));
+		// right.setLayout(new GridLayout(1, 1));
+		//
+		// this.setLayout(new GridLayout(0, 2));
+		//
+		// left.add(skipback);
+		// left.add(playpause);
+		// left.add(stop);
+		// left.add(skip);
+		// left.add(autoskipButton);
+		// right.add(progressSlider);
+		//
+		// add(left);
+		// add(right);
 
 		updateButtonText();
 		updateAutoskipButton();

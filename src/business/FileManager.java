@@ -1,5 +1,7 @@
 package business;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -13,6 +15,8 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.imageio.ImageIO;
+
 import ddf.minim.AudioMetaData;
 import ddf.minim.AudioPlayer;
 
@@ -25,6 +29,7 @@ import ddf.minim.AudioPlayer;
 public class FileManager {
 
 	private static String playlistsPath = "playlists";
+	private static int coverSize = 160;
 
 	/**
 	 * Gibt den Dateipfad zurück, der eine Playlist repräsentiert
@@ -119,6 +124,10 @@ public class FileManager {
 		return m3uFiles;
 	}
 
+	private static String getPlaylistBasename(String filename) {
+		return filename.substring(0, filename.lastIndexOf('.'));
+	}
+
 	/**
 	 * Diese Methode liest eine .m3u Datei und erzeugt eine Playlist
 	 * 
@@ -155,9 +164,29 @@ public class FileManager {
 		} catch (IOException ioe) {
 			System.out.println("Fehler bei lesen der Tracks");
 		}
+
+		// Sucht nach eventuellem Coverbild. Muss den Playlist-Dateinamen mit Bildendung haben
+		BufferedImage coverImage = null;
+		String basename = getPlaylistBasename(m3uFile.getName());
+		System.out.println(basename);
+		for (String ext : new String[] { "jpg", "png", "gif", "tiff" }) {
+			String asds = playlistsPath + File.separator + basename + "." + ext;
+			System.out.println(asds);
+			File coverFile = new File(asds);
+			if (coverFile.exists()) {
+				try {
+					coverImage = new BufferedImage(coverSize, coverSize, BufferedImage.TYPE_INT_ARGB);
+					coverImage.getGraphics().drawImage(ImageIO.read(coverFile).getScaledInstance(coverSize, coverSize, Image.SCALE_SMOOTH), 0, 0, null);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				break;
+			}
+		}
+
 		String playlistName = m3uFile.getName();
 		playlistName = playlistName.substring(0, playlistName.lastIndexOf('.'));
-		return new Playlist(playlistName, tracks);
+		return new Playlist(playlistName, coverImage, tracks);
 	}
 
 	/**

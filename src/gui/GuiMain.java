@@ -1,6 +1,9 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -25,6 +28,8 @@ public class GuiMain {
 	public GuiControl guiControl;
 	public GuiTracklist guiTracklist;
 	public GuiTrackinfo guiTrackinfo;
+
+	public static final Color selectionColor = new Color(135, 206, 250);
 
 	public GuiMain(MusicPlayer player) {
 		this.player = player;
@@ -60,7 +65,12 @@ public class GuiMain {
 			}
 		});
 
+		frame.setMinimumSize(new Dimension(620, 420));
+
+		// Fenster packen und am Bildschirm zentrieren
+		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.pack();
+		frame.setLocation((int) (screen.getWidth() - frame.getWidth()) / 2, (int) (screen.getHeight() - frame.getHeight()) / 2);
 		frame.setVisible(true);
 
 	}

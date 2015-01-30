@@ -43,6 +43,7 @@ public class GuiTracklist extends JPanel {
 		Dimension size = new Dimension(400, 300);
 		tracklist.setMinimumSize(size);
 		tracklist.setPreferredSize(size);
+		tracklist.setSelectionBackground(GuiMain.selectionColor);
 
 		tracklist.addListSelectionListener(e -> {
 			if (e.getValueIsAdjusting() || tracklist.getSelectedIndex() < 0) {
